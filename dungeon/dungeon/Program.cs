@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Diagnostics.Tracing;
 using System.Dynamic;
 using System.Linq;
@@ -27,9 +29,7 @@ namespace dungeon
         public void PlayGame()
         {
             String command = "";
-            Boolean gameOver = false;
-
-
+            bool gameOver = false;
 
 
 
@@ -45,40 +45,46 @@ namespace dungeon
             //Room testRoom = new Room("A simple testing room", false);
 
             // food Items
-            FoodItem apple = new FoodItem("apple", "a beautiful rosy red apple, it looks delicious.", 10, true, 1, 2);
-            FoodItem bread = new FoodItem("bread", "A small slice of bread", 15, true, 0, 5);
-            FoodItem staleBread = new FoodItem("stale bread", "Old stale bread. It doesnt look edible", -3, true, 5, 2);
+            FoodItem apple = new FoodItem("apple", "a beautiful rosy red apple, it looks delicious.", 10, 1, 2);
+            FoodItem bread = new FoodItem("bread", "A small slice of bread", 15, 0, 5);
+            FoodItem staleBread = new FoodItem("stale bread", "Old stale bread. It doesnt look edible", -3, 5, 2);
+            FoodItem cheese = new FoodItem("cheese", "Stinky old cheese that has clearly been here for years", 5, 2, 1);
 
             // potions
-            FoodItem potionOfHealing = new FoodItem("health potion", "A elegant looking bottle with a purple liquid inside", 20, true, 6, 25);
-            FoodItem potionOfPermaHealth = new FoodItem("perma potion", "A potion that will permanently raise health by 20 points", 20, true, 6, 500);
+            FoodItem potionOfHealing = new FoodItem("health potion", "A elegant looking bottle with a purple liquid inside", 20, 6, 25);
+            FoodItem potionOfPermaHealth = new FoodItem("perma potion", "A potion that will permanently raise health by 20 points", 20, 6, 500);
 
             // normal items
-            Item stoneApple = new Item("apple", "a beautiful apple made of stone.", false, 4, 12);
-            Item water = new FoodItem("water", "Everian, the best!.", 5, true, 0, 0);
-            Item glass = new Item("glass", "glassy glass.", false, 4, 12);
-            Item key = new Item("key", "A key that can be used to unlock doors", false, 2, 50);
+            Item stoneApple = new Item("apple", "a beautiful apple made of stone.", 4, 12, false, false);
+            Item water = new FoodItem("water", "Everian, the best!.", 5, 0, 0);
+            Item glass = new Item("glass", "glassy glass.", 4, 12);
+            Item key = new Item("key", "A key that can be used to unlock doors", 2, 50, true);
 
             // weapons items
-            Item fist = new Item("fists", "Your fists, hardened over time", false, 1, 0);
-            Item woodenSword = new Item("wooden sword", "A splintered old sword", false, 5, 10);
-            Item holySword = new Item("holy sword", "A sacred blade that was wielded by the paladins", false, 20, 20);
+            Item fist = new Item("fists", "Your fists, hardened over time", 1, 0, true);
+            Item woodenSword = new Item("wooden sword", "A splintered old sword", 5, 10);
+            Item holySword = new Item("holy sword", "A sacred blade that was wielded by the paladins", 20, 20);
             // Item godSword = new Item("god", "Sword forged by the gods to test with", false, 10000000, 20000000);
             // Item axe = new Item("axe", "A sleek axe with an ash handle", false, 10, 20);
             // Item rustyAxe = new Item("rusty axe", "An old rusty axe with a splintered handle", false, 5, 10);
 
+            // armour items
+            Item skin = new Item("skin", "You plain flesh and bones", 0, 0, true, true, 0);
+            Item helm = new Item("helm", "A simple metal helmet", 5, 50, false, true, 5);
+
+
             // spell tomes
-            Item engulf = new Item("engulf", "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant", false, 1, 2000, true, 25);
-            
+            Item engulf = new Item("engulf", "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant", 1, 2000, false, false, 0, false, true, 25);
+
             //initialising shops
             NPC skipSeller = new NPC("Craig");
             NPCRoom skipShop = new NPCRoom(skipSeller);
             skipSeller.AddVendorItems(holySword, 45);
             skipSeller.AddVendorItems(potionOfPermaHealth, 650);
-            skipRoom.AddNPC(skipSeller, skipShop, wallRoom, skipShop);
+            skipRoom.AddNPC(skipSeller, skipShop, skipRoom, skipShop);
 
             // creatures
-            DragonCreature dragon = new DragonCreature(350, potionOfPermaHealth, holySword);
+            DragonCreature dragon = new DragonCreature(350, 5, potionOfPermaHealth, holySword);
             Creature orc = new Creature("orc", 20, 50);
             BossCreature kingGarlock = new BossCreature("garlock", 30, key, 100, 2, engulf);
             BossCreature testDummy = new BossCreature("test", 1, key, 150, 0);
@@ -88,11 +94,18 @@ namespace dungeon
             StaticCreature fakeWall = new StaticCreature("wall", 1, wallConnection);
 
 
+            Chest startRoomChest = new Chest();
+            startRoomChest.AddItem(cheese);
+            startRoomChest.AddItem(bread);
+
+
+
             // start room add items
             startRoom.AddItem(water);
             startRoom.AddItem(glass);
             startRoom.AddItem(woodenSword);
             startRoom.AddCreature(testDummy);
+            startRoom.AddChest(startRoomChest);
 
             // other room add items
             lavaRoom.AddCreature(dragon);
@@ -126,21 +139,25 @@ namespace dungeon
 
 
             // player setup
-            Player pc = new Player(STARTING_HEALTH, fist, key);
+            Player pc = new Player(STARTING_HEALTH, fist, skin, key);
 
             pc.SetLocation(startRoom);
             pc.AddItem(apple);
             pc.AddItem(stoneApple);
             pc.AddItem(fist);
             pc.AddItem(staleBread);
+            pc.AddItem(skin);
 
 
             // play the game
             while (!gameOver)
             {
                 Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("What would you like to do? ");
+                Console.ForegroundColor = ConsoleColor.White;
                 command = Console.ReadLine();
+
                 gameOver = pc.DoCommand(command);
             }
 
@@ -169,16 +186,19 @@ namespace dungeon
         private double xpNeeded = 150;
         private const double XP_INCREASE = 1.75;
         private int strengthChange = 5;
+        private int HealthChange = 5;
         public int gold = 50;
         private NPC Vendor;
+        public Item Armour;
 
-        public Player(int health, Item equipedWeapon, Item Key)
+        public Player(int health, Item equipedWeapon, Item armour, Item Key)
         {
             Health = health;
             MaxHealth = health;
             random = new Random();
             EquipedWeapon = equipedWeapon;
             key = Key;
+            Armour = armour;
         }
 
         public void SetVendor(NPC vendor)
@@ -190,6 +210,7 @@ namespace dungeon
         {
             gold += Gold;
         }
+
         public void AddItem(Item item)
         {
             Inventory.Add(item);
@@ -208,6 +229,13 @@ namespace dungeon
         public void EquipItem(Item weapon)
         {
             EquipedWeapon = weapon;
+        }
+
+        public void WearArmour(Item armour)
+        {
+
+            Armour = armour;
+
         }
 
         public int GetStrength()
@@ -230,41 +258,58 @@ namespace dungeon
                 Console.WriteLine("You Leveled Up");
                 Strength += strengthChange;
                 strengthChange = Convert.ToInt32(strengthChange * 1.5);
+                Health += HealthChange;
             }
         }
 
-        public double GetExperience() { return Experience; }
-        public double GetXPNeeded() { return xpNeeded; }
+        public double GetExperience()
+        {
+            return Experience;
+        }
+
+        public double GetXPNeeded()
+        {
+            return xpNeeded;
+        }
 
         public int GetLevel()
         {
             return level;
         }
+
         public int GetHealth()
         {
             return Health;
         }
+
         public void SetHealth(int health)
         {
             Health = health;
         }
+
         public Room GetLocation()
         {
             return Location;
         }
+
         public void SetLocation(Room location)
         {
             Location = location;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(Location.GetDescription());
+            Console.ForegroundColor = ConsoleColor.White;
 
         }
+
         // other methods
         public int AdjustHealth(int health)
         {
             Health += health;
             return Health;
         }
-        public Boolean DoCommand(String command)
+
+
+        public bool DoCommand(String command)
         {
             if (command == "QUIT")
             {
@@ -285,7 +330,9 @@ namespace dungeon
             switch (instructions[0])
             {
                 case "look":
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(Location.GetDescription());
+                    Console.ForegroundColor = ConsoleColor.White;
                     break;
                 case "health":
                 case "h":
@@ -323,39 +370,36 @@ namespace dungeon
                         }
 
                     }
-                    else { Console.WriteLine("This room does not contain this item"); }
-
-
                     break;
                 case "drop":
                     string itemToDrop = instructionsToDo;
                     Item droppedItem = null;
 
-                    if (itemToDrop != "fist")
+                    foreach (Item item in Inventory)
                     {
-
-
-                        foreach (Item item in Inventory)
+                        if (item.GetName() == itemToDrop)
                         {
-                            if (item.GetName() == itemToDrop)
-                            {
-                                droppedItem = item;
-                            }
+                            droppedItem = item;
                         }
-                        if (droppedItem != null)
+                    }
+                    if (droppedItem != null && !droppedItem.Locked)
+                    {
+                        Inventory.Remove(droppedItem);
+                        Location.AddItem(droppedItem);
+                        Console.WriteLine("You dropped " + instructionsToDo);
+                        if (instructionsToDo == "key")
                         {
-                            Inventory.Remove(droppedItem);
-                            Location.AddItem(droppedItem);
-                            if (instructionsToDo == "key")
-                            {
-                                KeyObtained = false;
-                            }
+                            KeyObtained = false;
                         }
-                        else
-                        {
-                            Console.WriteLine("You don't have a " + itemToDrop);
-                        }
-                    } else { Console.WriteLine("You can't drop this"); }
+                    }
+                    else if (droppedItem.Locked)
+                    {
+                        Console.WriteLine("You cannot drop this");
+                    }
+                    else
+                    {
+                        Console.WriteLine("You don't have a " + itemToDrop);
+                    }
                     break;
                 case "attack":
                     Creature deadCreature = null;
@@ -408,7 +452,7 @@ namespace dungeon
                             else
                             {
                                 Console.WriteLine($"Your attack caused the {creature.GetName()} to lose {damage} health.");
-                                int damageTaken = creature.GetAttackDamage();
+                                int damageTaken = creature.GetAttackDamage(Armour);
                                 Console.WriteLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
                                 Health -= damageTaken;
                                 if (Health < 0)
@@ -467,7 +511,7 @@ namespace dungeon
                                     }
                                     else
                                     {
-                                        Health -= creature.GetAttackDamage();
+                                        Health -= creature.GetAttackDamage(Armour);
                                         if (Health < 0)
                                         {
                                             Console.WriteLine("You die.");
@@ -565,6 +609,26 @@ namespace dungeon
                         Console.WriteLine("You don't have a " + instructionsToDo);
                     }
                     break;
+                case "wear":
+                    Item WearingItem = null;
+                    foreach (Item item in Inventory)
+                    {
+                        if (item.GetName() == instructionsToDo)
+                        {
+                            WearingItem = item;
+                        }
+                    }
+                    if (WearingItem != null && WearingItem.IsArmour)
+                    {
+                        WearArmour(WearingItem);
+                        Console.WriteLine("You have put on a " + instructionsToDo);
+                    }
+                    else if (!WearingItem.IsArmour) { Console.WriteLine("This is not armour"); }
+                    else
+                    {
+                        Console.WriteLine("You don't have a " + instructionsToDo);
+                    }
+                    break;
                 case "learn":
                     Item Learning = null;
                     for (int i = 0; i < Inventory.Count; i++)
@@ -638,38 +702,46 @@ namespace dungeon
                     string itemToSell = instructionsToDo;
                     Item SoldItem = null;
 
-                    if (itemToSell != "fist")
+                    foreach (Item item in Inventory)
                     {
-
-
-                        foreach (Item item in Inventory)
+                        if (item.GetName() == itemToSell)
                         {
-                            if (item.GetName() == itemToSell)
-                            {
-                                SoldItem = item;
-                            }
-                        }
-                        if (SoldItem != null)
-                        {
-                            Inventory.Remove(SoldItem);
-                            gold += SoldItem.GetValue();
-                            Vendor.AddVendorItems(SoldItem, SoldItem.GetValue() + random.Next(1, 35));
-                            Console.WriteLine($"You sold a {itemToSell} to {Vendor.GetName()} for {SoldItem.GetValue()} gold");
-                            Console.WriteLine(Location.GetDescription());
-                            if (instructionsToDo == "key")
-                            {
-                                KeyObtained = false;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("You don't have a " + itemToSell);
+                            SoldItem = item;
                         }
                     }
-                    else { Console.WriteLine("You can't sell this"); }
+                    if (SoldItem != null && !SoldItem.Locked)
+                    {
+                        Inventory.Remove(SoldItem);
+                        gold += SoldItem.GetValue();
+                        Vendor.AddVendorItems(SoldItem, SoldItem.GetValue() + random.Next(1, 35));
+                        Console.WriteLine($"You sold a {itemToSell} to {Vendor.GetName()} for {SoldItem.GetValue()} gold");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine(Location.GetDescription());
+                        Console.ForegroundColor = ConsoleColor.White;
+                        if (instructionsToDo == "key")
+                        {
+                            KeyObtained = false;
+                        }
+                    }
+                    else if (SoldItem.Locked) { Console.WriteLine("You cannot sell this"); }
+                    else
+                    {
+                        Console.WriteLine("You don't have a " + itemToSell);
+                    }
+                    break;
+                case "open":
+                    if (Location.GetChests().Count > 0) 
+                    {
+                        Open(Location.GetChests()[0]);
+                        
+                    }
+                    else { Console.WriteLine("There is nothing to open"); }
                     break;
                 case "gold":
                     Console.WriteLine($"You have {gold} gold");
+                    break;
+                case "clear":
+                    Console.Clear();
                     break;
                 default:
                     Console.WriteLine("You can't do that!");
@@ -677,6 +749,7 @@ namespace dungeon
             }
             return false; // they didn't quit
         }
+
         private void Move(String direction)
         {
             List<String> exits = Location.GetDirections();
@@ -743,6 +816,20 @@ namespace dungeon
                 }
             }
         }
+
+        private void Open(Chest chest)
+        {
+            if (chest.GetContents().Count != 0)
+            {
+                while (chest.GetContents().Count != 0)
+                {
+                    Console.WriteLine("You got a " + chest.GetContents()[0].GetName());
+                    AddItem(chest.GetContents()[0]);
+                    chest.RemoveItem(chest.GetContents()[0]);
+                }
+            }
+            else { Console.WriteLine("The chest is already empty"); }
+        }
     }
 
     class Creature
@@ -753,8 +840,9 @@ namespace dungeon
         protected Item Drop;
         protected Item Drop2;
         public double XP;
+        protected int PowerLvl;
 
-        public Creature(string name, int health, double xp, Item drop = null, Item drop2 = null)
+        public Creature(string name, int health, double xp, int powerLvl = 0, Item drop = null, Item drop2 = null)
         {
             Name = name;
             Health = health;
@@ -762,6 +850,7 @@ namespace dungeon
             Drop = drop;
             Drop2 = drop2;
             XP = xp;
+            PowerLvl = powerLvl;
         }
 
         public double GetXp() { return XP; }
@@ -770,19 +859,14 @@ namespace dungeon
             return Drop;
         }
         public Item GetDrop2() { return Drop2; }
-
         public bool IsDrop() { return Drop != null; }
-
         public bool MultiDrop()
         {
             return Drop2 != null;
         }
-
-
-
-        public virtual int GetAttackDamage()
+        public virtual int GetAttackDamage(Item armour)
         {
-            return (random.Next(1, 10));
+            return (random.Next(1, 10) + PowerLvl - armour.GetDefence());
         }
         public int GetHealth()
         {
@@ -818,22 +902,21 @@ namespace dungeon
 
     class BossCreature : Creature
     {
-        int PowerLvl;
-        public BossCreature(string name, int health, Item drop, double xp, int powerLvl, Item drop2 = null) : base(name, health, xp, drop, drop2) { PowerLvl = powerLvl; }
+        public BossCreature(string name, int health, Item drop, double xp, int powerLvl, Item drop2 = null) : base(name, health, xp, powerLvl, drop, drop2) { PowerLvl = powerLvl; }
 
-        public override int GetAttackDamage()
+        public override int GetAttackDamage(Item armour)
         {
-            return ((random.Next(1, 10)) * PowerLvl);
+            return ((random.Next(1, 10)) * PowerLvl - armour.GetDefence());
         }
 
     }
 
     class DragonCreature : Creature
     {
-        public DragonCreature(double xp, Item drop = null, Item drop2 = null) : base("dragon", 100, xp, drop, drop2) { }
+        public DragonCreature(double xp, int powerLvl, Item drop = null, Item drop2 = null) : base("dragon", 100, xp, powerLvl, drop, drop2) { }
 
 
-        public override int GetAttackDamage()
+        public override int GetAttackDamage(Item armour)
         {
             if (random.Next(1, 3) == 1)
             {
@@ -842,7 +925,7 @@ namespace dungeon
             }
             else
             {
-                return base.GetAttackDamage();
+                return base.GetAttackDamage(armour);
             }
         }
         public override bool TakeSpellDamage(string spell, int damage)
@@ -857,7 +940,8 @@ namespace dungeon
             }
         }
     }
-    class StaticCreature 
+
+    class StaticCreature
     {
         string Name;
         int Health;
@@ -888,10 +972,7 @@ namespace dungeon
         {
             return HiddenConnection;
         }
-        
-
     }
-
 
     class Connection
     {
@@ -912,8 +993,8 @@ namespace dungeon
         }
         public Boolean GoThrough(Player player, String direction, Item key)
         {
-            
-            
+
+
             if ((player.GetLocation() == RoomFrom) && (direction == Direction))
             {
                 if ((KeyNeeded && player.KeyObtained) || !KeyNeeded)
@@ -933,7 +1014,7 @@ namespace dungeon
 
                     return true;
                 }
-                else { Console.WriteLine("You need a key to acess this room") ; return false; }
+                else { Console.WriteLine("You need a key to acess this room"); return false; }
             }
             else
             {
@@ -954,9 +1035,12 @@ namespace dungeon
         protected int Damage;
         public bool SpellBook;
         public int SpellDamage;
-        private int Value;
+        protected int Value;
+        public bool IsArmour;
+        protected int Defence;
+        public bool Locked;
 
-        public Item(String name, String description, bool isEdible, int damage, int value, bool spellBook = false, int spellDamage = 0)
+        public Item(String name, String description, int damage, int value, bool locked = false, bool isArmour = false, int defence = 0, bool isEdible = false, bool spellBook = false, int spellDamage = 0)
         {
             Name = name;
             Description = description;
@@ -965,6 +1049,14 @@ namespace dungeon
             SpellBook = spellBook;
             SpellDamage = spellDamage;
             Value = value;
+            IsArmour = isArmour;
+            Defence = defence;
+            Locked = locked;
+
+        }
+        public int GetDefence()
+        {
+            return Defence;
         }
         public virtual int GetHeals()
         {
@@ -995,7 +1087,7 @@ namespace dungeon
         {
             return Damage;
         }
-        
+
         public int GetSpellDamage()
         {
             return SpellDamage;
@@ -1003,10 +1095,11 @@ namespace dungeon
 
     }
 
+
     class FoodItem : Item
     {
         private int HealAmount;
-        public FoodItem(String name, String description, int heals, bool isEdible, int minDamage, int value) : base(name, description, isEdible, minDamage, value)
+        public FoodItem(String name, String description, int heals, int damage, int value, bool locked = false) : base(name, description, damage, value, locked, false, 0, true)
         {
             HealAmount = heals;
         }
@@ -1018,11 +1111,12 @@ namespace dungeon
 
     class Room
     {
-        private String Description;
+        private string Description;
         private List<Item> Contents = new List<Item>();
         private List<Creature> Creatures = new List<Creature>();
         private List<Connection> Connections = new List<Connection>();
         private List<StaticCreature> StaticCreatures = new List<StaticCreature>();
+        private List<Chest> Chests = new List<Chest>();
         private List<NPC> NPCs = new List<NPC>();
         bool KeyNeeded;
         public bool isVendor;
@@ -1040,6 +1134,14 @@ namespace dungeon
         public void AddItem(Item item)
         {
             Contents.Add(item);
+        }
+        public List<Chest> GetChests()
+        {
+            return Chests;
+        }
+        public void AddChest(Chest chests)
+        {
+            Chests.Add(chests);
         }
         public void AddStatic(StaticCreature fake)
         {
@@ -1063,19 +1165,14 @@ namespace dungeon
             AddConnection(new Connection(npcStoringRoom, vendorsRoom, "talk", false, VendorRoom));
             vendorsRoom.AddConnection(new Connection(vendorsRoom, npcStoringRoom, "leave", false));
         }
-
-
-
         public bool ContainsVendor()
         {
             return NPCs.Count > 0;
         }
-
         public List<NPC> GetNPC()
         {
             return NPCs;
         }
-
         public List<Creature> GetCreatures()
         {
             return Creatures;
@@ -1113,10 +1210,9 @@ namespace dungeon
 
             return directions;
         }
-
         public List<Connection> GetConnections()
         {
-            
+
             return Connections;
         }
         public virtual String GetDescription()
@@ -1142,7 +1238,6 @@ namespace dungeon
             {
                 items = "";
             }
-          
 
             String creatures = "\n";
             if (Creatures.Count > 0)
@@ -1169,16 +1264,21 @@ namespace dungeon
             String exits = "\n";
 
             int v = -1;
-            
+            int connectionCount = Connections.Count;
+
             for (int j = 0; j < Connections.Count; j++)
             {
                 if (Connections[j].GetDirection() == "talk") { v = j; break; }
             }
 
+            if (ContainsVendor())
+            {
+                connectionCount--;
+            }
 
             if (Connections.Count > 0)
             {
-                if (Connections.Count == 1 )
+                if (Connections.Count == 1)
                 {
                     exits += $"There is an exit to the {Connections[0].GetDirection()}.";
                 }
@@ -1188,7 +1288,8 @@ namespace dungeon
                     {
                         exits += $"There are exits to the {Connections[0].GetDirection()}";
                     }
-                    else { 
+                    else
+                    {
                         exits += $"There are exits to the {Connections[1].GetDirection()}";
                         for (int i = 1; i < Connections.Count - 1; i++)
                         {
@@ -1196,7 +1297,7 @@ namespace dungeon
                             {
                                 if (i + 1 > Connections.Count)
                                 {
-                                    exits += $" and {Connections[i + 1].GetDirection()}.";
+
                                 }
                                 else
                                 {
@@ -1211,20 +1312,21 @@ namespace dungeon
                     for (int i = 1; i < Connections.Count - 1; i++)
                     {
                         if (i != v)
-                        { 
-                            if (i + 1 == v &  i + 2 >= Connections.Count)
+                        {
+                            if ((i + 1 == v && i + 2 >= Connections.Count) || (i + 1 >= Connections.Count()))
                             {
                                 exits += $" and {Connections[i].GetDirection()}.";
+                                break;
                             }
                             else
                             {
-                                exits += ", " + Connections[i].GetDirection(); 
+                                exits += ", " + Connections[i].GetDirection();
                             }
-                             
+
                         }
-                        
+
                     }
-                    if (Connections.Count - 1 != v)
+                    if (Connections.Count - 1 != v && connectionCount != 1)
                     {
                         exits += $" and {Connections[Connections.Count - 1].GetDirection()}.";
                     }
@@ -1241,27 +1343,37 @@ namespace dungeon
                 vendors += "There is an npc you can talk to";
             }
 
-            return Description + items + creatures + exits + vendors;
+            string chests = "\n";
+            if (Chests.Count >= 1)
+            {
+                if (Chests.Count == 1)
+                {
+                    chests += "There is 1 chest";
+                }
+                else 
+                {
+                    chests += "There are " + Chests.Count + " chests";
+                }
+            }
+            return Description + items + creatures + exits + vendors + chests;
         }
         public List<Item> GetContents()
         {
             return Contents;
         }
-
         public void SetDescription(String description)
         {
             Description = description;
         }
-        
-
     }
+
 
     class NPCRoom : Room
     {
         public NPC Vendor;
         string Description = "";
         public NPCRoom(NPC npc) : base("A simple shop", false, true)
-        { 
+        {
             Vendor = npc;
         }
         public void SetPlayerVendor(Player player)
@@ -1295,10 +1407,10 @@ namespace dungeon
 
         public string GetName() { return Name; }
 
-        public void AddVendorItems(Item item, int cost) 
-        { 
+        public void AddVendorItems(Item item, int cost)
+        {
             SellingItems.Add(item);
-            SellingCosts.Add(cost );
+            SellingCosts.Add(cost);
         }
 
         public void BuyItem(Player player, string wanting)
@@ -1315,7 +1427,7 @@ namespace dungeon
                     intIndex = i;
                     break;
                 }
-               
+
             }
             if (itemFound)
             {
@@ -1327,7 +1439,30 @@ namespace dungeon
                 }
             }
 
-            
+
         }
+    }
+
+    class Chest
+    {
+        private List<Item> Contents = new List<Item>();
+        public Chest() { }
+
+        public void AddItem(Item item)
+        {
+            Contents.Add(item);
+        }
+
+        public List<Item> GetContents()
+        {
+            return Contents;
+        }
+
+        public void RemoveItem(Item item) 
+        { 
+            Contents.Remove(item);
+        }
+
+
     }
 }
