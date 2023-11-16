@@ -1,0 +1,21 @@
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\bin\Debug\dungeon.exe.config
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\bin\Debug\dungeon.exe
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\bin\Debug\dungeon.pdb
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\obj\Debug\dungeon.csproj.AssemblyReference.cache
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\obj\Debug\dungeon.csproj.CoreCompileInputs.cache
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\obj\Debug\dungeon.exe
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\dungeon\dungeon\obj\Debug\dungeon.pdb
+E:\School\Computer Science\Code\dungeon\dungeon\obj\Debug\dungeon.csproj.AssemblyReference.cache
+E:\School\Computer Science\Code\dungeon\dungeon\obj\Debug\dungeon.csproj.CoreCompileInputs.cache
+E:\School\Computer Science\Code\dungeon\dungeon\obj\Debug\dungeon.exe
+E:\School\Computer Science\Code\dungeon\dungeon\obj\Debug\dungeon.pdb
+E:\School\Computer Science\Code\dungeon\dungeon\bin\Debug\dungeon.exe.config
+E:\School\Computer Science\Code\dungeon\dungeon\bin\Debug\dungeon.exe
+E:\School\Computer Science\Code\dungeon\dungeon\bin\Debug\dungeon.pdb
+C:\Users\tomsk\Documents\dungeon\dungeon\bin\Debug\dungeon.exe.config
+C:\Users\tomsk\Documents\dungeon\dungeon\bin\Debug\dungeon.exe
+C:\Users\tomsk\Documents\dungeon\dungeon\bin\Debug\dungeon.pdb
+C:\Users\tomsk\Documents\dungeon\dungeon\obj\Debug\dungeon.csproj.AssemblyReference.cache
+C:\Users\tomsk\Documents\dungeon\dungeon\obj\Debug\dungeon.csproj.CoreCompileInputs.cache
+C:\Users\tomsk\Documents\dungeon\dungeon\obj\Debug\dungeon.exe
+C:\Users\tomsk\Documents\dungeon\dungeon\obj\Debug\dungeon.pdb
