@@ -33,3 +33,10 @@ E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-game\Stuart-Forsyth-Dunge
 \\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.csproj.CoreCompileInputs.cache
 \\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.exe
 \\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.pdb
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\bin\Debug\dungeon.exe.config
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\bin\Debug\dungeon.exe
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\bin\Debug\dungeon.pdb
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.csproj.AssemblyReference.cache
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.csproj.CoreCompileInputs.cache
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.exe
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeon\obj\Debug\dungeon.pdb

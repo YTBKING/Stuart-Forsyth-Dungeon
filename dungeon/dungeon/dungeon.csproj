@@ -43,22 +43,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArmourItem.cs" />
-    <Compile Include="BossCreature.cs" />
-    <Compile Include="Chest.cs" />
-    <Compile Include="Connection.cs" />
-    <Compile Include="Creature.cs" />
-    <Compile Include="DragonCreature.cs" />
-    <Compile Include="FoodItem.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="NPC.cs" />
-    <Compile Include="NPCRoom.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Creatures\Boss Creatures\Celestial.cs" />
+    <Compile Include="Creatures\Boss Creatures\Garlock.cs" />
+    <Compile Include="Items\ArmourItem.cs" />
+    <Compile Include="Creatures\BossCreature.cs" />
+    <Compile Include="Items\PotionItem.cs" />
+    <Compile Include="Items\KeyItem.cs" />
+    <Compile Include="Rooms\Chest.cs" />
+    <Compile Include="Rooms\Connection.cs" />
+    <Compile Include="Creatures\Creature.cs" />
+    <Compile Include="Creatures\Boss Creatures\DragonCreature.cs" />
+    <Compile Include="Items\FoodItem.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Rooms\NPC.cs" />
+    <Compile Include="Game\Player.cs" />
+    <Compile Include="Game\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
-    <Compile Include="StaticCreature.cs" />
+    <Compile Include="Rooms\Room.cs" />
+    <Compile Include="Items\SpellItem.cs" />
+    <Compile Include="Creatures\StaticCreature.cs" />
+    <Compile Include="Items\WeaponItem.cs" />
+    <Compile Include="Rooms\SellerNPC.cs" />
+    <Compile Include="SmithNPC.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
