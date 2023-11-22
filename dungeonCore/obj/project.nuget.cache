@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "+3LX4Dmdo135QnSKeYaeQOz1v4/yErVJRHweqeE41inFeXPJNNESGBAjmtHsJzmSGAbWFXhjxwa0Pwkrqh7c3w==",
+  "success": true,
+  "projectFilePath": "E:\\School\\Computer Science\\Code\\Stuart-Forsyth-Dungeon-main\\dungeon\\dungeonCore\\Dungeon.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\tomsk\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\spectre.console\\0.47.0\\spectre.console.0.47.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

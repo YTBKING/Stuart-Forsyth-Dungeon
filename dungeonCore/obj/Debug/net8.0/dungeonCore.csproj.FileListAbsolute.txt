@@ -1,0 +1,16 @@
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.csproj.AssemblyReference.cache
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.GeneratedMSBuildEditorConfig.editorconfig
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.csproj.CoreCompileInputs.cache
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.exe
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.dll.config
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.deps.json
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.runtimeconfig.json
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.dll
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\dungeonCore.pdb
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\bin\Debug\net8.0\Spectre.Console.dll
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.csproj.CopyComplete
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.dll
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\refint\dungeonCore.dll
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.pdb
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\dungeonCore.genruntimeconfig.cache
+E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\ref\dungeonCore.dll
