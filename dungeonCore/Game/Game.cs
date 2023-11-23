@@ -14,7 +14,7 @@ namespace Dungeon
         private const int STARTING_HEALTH = 100;
         public void PlayGame()
         {
-            #region "Game Inital"
+            #region "Game Initalising"
             string command = "";
             bool gameOver = false;
             #endregion
@@ -38,6 +38,8 @@ namespace Dungeon
 
             #endregion
 
+            #region "Item Creation"
+
             #region "Food Items"
             FoodItem apple = new FoodItem("Apple", "a beautiful rosy red apple, it looks delicious.", 10, 20, 2);
             FoodItem bread = new FoodItem("Bread", "A small slice of bread", 15, 3, 5);
@@ -48,7 +50,7 @@ namespace Dungeon
 
             #region "Potions"
             PotionItem potionOfHealing = new PotionItem("Health Potion", "A elegant looking bottle with a purple liquid inside", 20, 0, 25);
-            FoodItem potionOfPermaHealth = new FoodItem("Health++", "A potion that will permanently raise health by 20 points", 20, 0, 500);
+            FoodItem potionOfPermaHealth = new FoodItem("Health++", "A potion that will permanently raise health by 20 points", 20, 0, 500, true);
             #endregion
 
             #region "Other Items"
@@ -58,7 +60,7 @@ namespace Dungeon
             #endregion
 
             #region "Key Items"
-            KeyItem key = new KeyItem("Key", "A key that can be used to unlock doors", 50);
+            KeyItem masterKey = new KeyItem("Key", "A key that can be used to unlock doors", 50);
             KeyItem gold = new KeyItem("Gold", "Gold that can be used to buy and upgrade tools", 1, false);
             #endregion
 
@@ -76,6 +78,12 @@ namespace Dungeon
 
             // paladin
             WeaponItem hammer = new WeaponItem("Hammer", "A gracefull hammer wielded by paladins. Its very heavy, and is especially usefull against Demonic creatures", 10, 120, "Holy");
+
+            // frostbitten
+            WeaponItem frostbiteSword = new WeaponItem("Frostbite", "A jagged dagger with ice radiating off of it. It's cold to the touch", 13, 100, "Frozen");
+
+            // spitfire
+            WeaponItem blazingSword = new WeaponItem("Sword", "A blazing sword that is boiling to the touch. Liquid fire runs down the hilt, hitting your hand", 12, 120, "Blazing");
             #endregion
             WeaponItem fist = new WeaponItem("Fists", "Your fists. Saggy flesh and bone", 1, 0, "Common", 35, true);
             WeaponItem hardenedFist = new WeaponItem("Hardened Fists", "Fists hardened by the passage of time", 50, 0, "Common", 65, true);
@@ -91,8 +99,8 @@ namespace Dungeon
             WeaponItem godSlayer = new WeaponItem("God Slayer", "A sword made for killing the gods", 250, 700);
             
             WeaponItem demonicStraightSword = new WeaponItem("Straight Sword", "A sharpened blade filled with the anger of dead souls", 75, 200, "Demonic");
-            WeaponItem frostbiteSword = new WeaponItem("Frostbite", "A jagged dagger with ice radiating off of it. It's cold to the touch", 100, 100, "Frozen");
-            // Item godSword = new Item("god", "Sword forged by the gods to test with", false, 10000000, 20000000);
+
+            WeaponItem godSword = new WeaponItem("Gods Greatsword", "Sword forged by the gods to test with", 10000000, 20000000, "Legendary");
             // Item axe = new Item("axe", "A sleek axe with an ash handle", false, 10, 20);
             // Item rustyAxe = new Item("rusty axe", "An old rusty axe with a splintered handle", false, 5, 10);
 
@@ -130,7 +138,16 @@ namespace Dungeon
 
             // palladin
             ArmourItem paladingear = new ArmourItem("Paladin's Set", "A elegant headpiece with a gold accent running down. While beautiful, the defense is questionable", 7, 100);
-            
+
+            // frostbitten
+            ArmourItem frostbiteSet = new ArmourItem("Frostbite Set", "A frozen chestpiece with icicles emerging from it. Doesn't look especially strong but looks expensive", 4, 200);
+
+
+            // spitfire
+            ArmourItem spitfireSet = new ArmourItem("Spitfire Set", "A flaming metal chestpiece. Doesn't look particularly strong but looks expensive", 5, 500);
+
+            // god
+            ArmourItem godsSet = new ArmourItem("Gods Set", "A chestpiece made for killing gods", 1000000, 1000000);
             #endregion
             #endregion
 
@@ -139,6 +156,8 @@ namespace Dungeon
             SpellItem engulf = new SpellItem("Engulf", "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant", 50, 15, 2);
             SpellItem lightning = new SpellItem("Lightning", "A spell book containing Lightning. Shoot lightning at your enemy", 80, 40, 250);
             SpellItem flameSpear = new SpellItem("FlameSpear", "A spell book containing FlameSpear. Throw a spear of fire towards tour enemy", 30, 10, 50);
+
+            #endregion
 
             #endregion
 
@@ -171,7 +190,7 @@ namespace Dungeon
             #region "Bosses"
             Dragon dragon = new Dragon(350, 5, 2, 500);
             BossCreature kingGarlock = new BossCreature("garlock", 30, 5, 100, 2, 50, "Holy");
-            //BossCreature testDummy = new BossCreature("test", 1, 150, 0, 500);
+            BossCreature testDummy = new BossCreature("test", 1, 150, 0, 0, 500);
             Celestial celestialKing = new Celestial("celestial", 300, 100, 30, 20000, 2000);
             BossCreature vengefullSpirit = new BossCreature("vengefull spirit", 35, 80, 3, 3, 62, "Demonic");
 
@@ -192,7 +211,7 @@ namespace Dungeon
             dragon.AddDrop(potionOfPermaHealth);
             dragon.AddDrop(holySword);
 
-            kingGarlock.AddDrop(key);
+            kingGarlock.AddDrop(masterKey);
             kingGarlock.AddDrop(engulf);
 
             vengefullSpirit.AddDrop(demonicStraightSword);
@@ -205,6 +224,10 @@ namespace Dungeon
             startRoomChest.AddItem(bread);
             startRoomChest.AddItem(gold, 50);
 
+            Chest testRoomChest = new Chest(true);
+            testRoomChest.AddItem(cheese);
+            testRoomChest.AddItem(bread);
+
             Chest demonsChest = new Chest();
             demonsChest.AddItem(frostbiteSword);
             demonsChest.AddItem(gold, 250);
@@ -214,8 +237,10 @@ namespace Dungeon
             #region "StartRoom"
             startRoom.AddItem(water);
             startRoom.AddItem(glass);
+            startRoom.AddItem(masterKey);
             startRoom.AddChest(startRoomChest);
-
+            startRoom.AddCreature(testDummy);
+            startRoom.AddChest(testRoomChest);
             // connections
             startRoom.AddConnection(new Connection(startRoom, lavaRoom, "north", true));
             startRoom.AddConnection(new Connection(startRoom, chestRoom, "east", false));
@@ -280,29 +305,29 @@ namespace Dungeon
 
 
             #region "Class Setup"
-            string name = AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
+            string name = "KING";
+                //AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
+            
+            
+            
+            string selection = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+            .Title("Which class would you like to play as?")
+            .PageSize(7)
+            .AddChoices(new[] {
+                "[bold darkred_1]HellSpawn[/]", "[bold grey69]Knight[/]", "[bold 153]Mage[/]", "[bold 11]Paladin[/]",
+                "[bold 117]Frostbitten[/]", "[bold red3]Spitfire[/]", "[bold 138]Wretch[/]",
+             }));
 
-            AnsiConsole.Markup(@"
-[italic]Which Class would you like to play as:[/]
-[bold darkred_1]HellSpawn[/]
-[bold grey69]Knight[/]
-[bold 153]Mage[/]
-[bold 11]Paladin[/]
-[bold 117]Frostbitten[/]
-[bold red3]Spitfire[/]
-[bold 138]Wretch[/]
-");
 
-            Player pc = new Player(100, fist, skin, key);
+            Player pc = new Player(100, fist, skin, masterKey);
             bool unassigned = true;
-            string classes = "";
             while (unassigned)
             {
-                classes = AnsiConsole.Ask<string>("> ").ToLower();
-                switch (classes)
+                switch (selection)
                 {
-                    case "hellspawn":
-                        pc = new Player(120, hellsDagger, hellsSet, key);
+                    case "[bold darkred_1]HellSpawn[/]":
+                        pc = new Player(120, hellsDagger, hellsSet, masterKey);
                         pc.SetStrength(15);
                         pc.SetMana(25);
                         pc.SetAgility(8);
@@ -311,8 +336,8 @@ namespace Dungeon
                         pc.AddItem(flameSpear);
                         unassigned = false;
                         break;
-                    case "knight":
-                        pc = new Player(150, sword, knightsSet, key);
+                    case "[bold grey69]Knight[/]":
+                        pc = new Player(150, sword, knightsSet, masterKey);
                         pc.SetStrength(17);
                         pc.SetMana(70);
                         pc.SetAgility(2);
@@ -320,8 +345,8 @@ namespace Dungeon
                         pc.AddItem(sword);
                         unassigned = false;
                         break;
-                    case "mage":
-                        pc = new Player(75, sacredStaff, magesRobes, key);
+                    case "[bold 153]Mage[/]":
+                        pc = new Player(75, sacredStaff, magesRobes, masterKey);
                         pc.SetStrength(0);
                         pc.SetMana(200);
                         pc.SetAgility(4);
@@ -331,8 +356,8 @@ namespace Dungeon
                         pc.LearnSpell(lightning);
                         unassigned = false;
                         break;
-                    case "paladin":
-                        pc = new Player(110, hammer, paladingear, key);
+                    case "[bold 11]Paladin[/]":
+                        pc = new Player(110, hammer, paladingear, masterKey);
                         pc.SetStrength(5);
                         pc.SetAgility(0);
                         pc.SetMana(100);
@@ -340,20 +365,45 @@ namespace Dungeon
                         pc.AddItem(hammer);
                         unassigned = false;
                         break;
-                    case "wretch":
-                        pc = new Player(100, fist, skin, key);
+                    case "[bold 117]Frostbitten[/]":
+                        pc = new Player(100, frostbiteSword, frostbiteSet, masterKey);
+                        pc.SetStrength(6);
+                        pc.SetAgility(4);
+                        pc.SetMana(20);
+                        pc.AddItem(frostbiteSet);
+                        pc.AddItem(frostbiteSword);
+                        unassigned = false;
+                        break;
+                    case "[bold red3]Spitfire[/]":
+                        pc = new Player(100, sword, spitfireSet, masterKey);
+                        pc.SetStrength(13);
+                        pc.SetMana(75);
+                        pc.SetAgility(3);
+                        pc.AddItem(spitfireSet);
+                        pc.AddItem(blazingSword);
+                        unassigned = false;
+                        break;
+                    case "[bold 138]Wretch[/]":
+                        pc = new Player(100, fist, skin, masterKey);
                         pc.SetStrength(0);
                         pc.SetMana(50);
                         pc.SetAgility(0);
                         unassigned = false;
                         break;
-                    default:
-                        Console.WriteLine("Please input a valid class");
-                        continue;
+                    /*case "god":
+                        pc = new Player(100, godSword, godsSet, doorKey);
+                        pc.SetStrength(1000);
+                        pc.SetMana(1000);
+                        pc.SetAgility(1000);
+                        pc.AddItem(godSword);
+                        pc.AddItem(godsSet);
+                        pc.AddItem(doorKey);
+                        unassigned = false;
+                        break; */
 
                 }
             }
-            pc.SetClass(classes);
+            pc.SetClass(selection);
             #endregion
 
 
@@ -368,6 +418,7 @@ namespace Dungeon
             pc.AddItem(apple);
             pc.AddItem(stoneApple);
             pc.AddItem(stoneApple);
+
             #endregion
 
             #region "Game"

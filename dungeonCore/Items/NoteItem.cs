@@ -12,7 +12,7 @@ namespace Dungeon
 
         public override string ToString()
         {
-            return $"[itallic orange4_1]{Name}[/]";
+            return $"{Name}";
         }
     }
 }

@@ -233,11 +233,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\School\\Computer Science\\Code\\Stuart-Forsyth-Dungeon-main\\dungeon\\dungeonCore\\Dungeon.csproj",
+      "projectUniqueName": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
       "projectName": "Dungeon",
-      "projectPath": "E:\\School\\Computer Science\\Code\\Stuart-Forsyth-Dungeon-main\\dungeon\\dungeonCore\\Dungeon.csproj",
+      "projectPath": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
       "packagesPath": "C:\\Users\\tomsk\\.nuget\\packages\\",
-      "outputPath": "E:\\School\\Computer Science\\Code\\Stuart-Forsyth-Dungeon-main\\dungeon\\dungeonCore\\obj\\",
+      "outputPath": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tomsk\\AppData\\Roaming\\NuGet\\NuGet.Config",

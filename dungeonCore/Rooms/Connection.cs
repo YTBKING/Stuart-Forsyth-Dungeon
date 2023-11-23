@@ -30,7 +30,7 @@ namespace Dungeon
 
             if ((player.GetLocation() == RoomFrom) && (direction == Direction))
             {
-                if ((KeyNeeded && player.KeyObtained) || !KeyNeeded)
+                if ((KeyNeeded && player.ObtainedKey()) || !KeyNeeded)
                 {
                     if (KeyNeeded) 
                     { 
@@ -50,7 +50,6 @@ namespace Dungeon
                     if (KeyNeeded)
                     { 
                         KeyNeeded = false;
-                        player.KeyObtained = false;
                         player.RemoveItem(key, 1);
                     }
 

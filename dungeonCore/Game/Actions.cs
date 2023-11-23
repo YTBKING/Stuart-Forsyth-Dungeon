@@ -38,7 +38,7 @@ namespace dungeonCore.Game
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
         public static void DoAction(List<string> instructions, Player player)
         {
-            AnsiConsole.MarkupLine($"You have [italic red]{player.GetHealth()}[/] health.");
+            AnsiConsole.MarkupLine($"You have [italic red]{player.GetHealth()}[/][italic grey] health.[/]");
         }
     }
 
@@ -120,10 +120,6 @@ namespace dungeonCore.Game
             {
                 player.Inventory.Add(player.GetLocation().RemoveItem(instructionsToDo));
                 Console.WriteLine($"You picked up a {instructionsToDo}");
-                if (instructionsToDo == "key")
-                {
-                    player.KeyObtained = true;
-                }
                 if (WantedItem is NoteItem)
                 {
                     player.AddNote((NoteItem)WantedItem);
@@ -185,10 +181,6 @@ namespace dungeonCore.Game
                 player.RemoveItem(droppedItem, number);
                 player.GetLocation().AddItem(droppedItem);
                 Console.WriteLine("You dropped " + instructionsToDo);
-                if (instructionsToDo == "key")
-                {
-                    player.KeyObtained = false;
-                }
             }
             else if (droppedItem == null)
             {
@@ -259,7 +251,7 @@ namespace dungeonCore.Game
                             player.AdjustExperience(creature.GetXp());
                             foreach (Item drops in creature.GetDrops())
                             {
-                                Console.WriteLine($"The {creature.GetName()} dropped a {drops}");
+                                AnsiConsole.MarkupLine($"[italic grey]The [/][italic red]{creature.GetName()}[/][italic grey] dropped a {drops}[/]");
                                 player.GetLocation().AddItem(drops);
                             }
                             player.gold += creature.GetGold();
@@ -319,7 +311,7 @@ namespace dungeonCore.Game
                             player.AdjustExperience(creature.GetXp());
                             foreach (Item drops in creature.GetDrops())
                             {
-                                Console.WriteLine($"The {creature.GetName()} dropped a {drops.GetName()}");
+                                AnsiConsole.MarkupLine($"[italic grey]The [/][italic red]{creature.GetName()}[/][italic grey] dropped a {drops}[/]");
                                 player.GetLocation().AddItem(drops);
                             }
                             player.gold += creature.GetGold();
@@ -403,17 +395,17 @@ namespace dungeonCore.Game
                                 player.AdjustExperience(creature.GetXp());
                                 foreach (Item drops in creature.GetDrops())
                                 {
-                                    Console.WriteLine($"The {creature.GetName()} dropped a {drops}");
+                                    AnsiConsole.MarkupLine($"[italic grey]The [/][italic red]{creature.GetName()}[/][italic grey] dropped a {drops}[/]");
                                     player.GetLocation().AddItem(drops);
                                 }
                                 player.gold += creature.GetGold();
-                                Console.WriteLine($"The {creature.GetName()} dropped {creature.GetGold()} gold");
+                                Console.WriteLine($"The {creature.GetName()} dropped [italic 178]{creature.GetGold()}g[/]");
                             }
                             else
                             {
                                 player.Health -= creature.GetAttackDamage(player.Armour);
-                                Console.WriteLine($"You dealt {player.SpellBook[spell]} to the {creature.GetName()}");
-                                Console.WriteLine($"The creature has {creature.GetHealth()} health left");
+                                AnsiConsole.MarkupLine($"You dealt {player.SpellBook[spell]} to the [italic red]{creature.GetName()}[/]");
+                                Console.WriteLine($"The [italic red]{creature.GetHealth()}[/][italic grey] has {creature.GetHealth()} health left[/]");
                                 if (player.IsDead())
                                 {
                                     Console.WriteLine("You die.");
@@ -538,19 +530,30 @@ namespace dungeonCore.Game
         public static void DoAction(List<string> instructions, Player player)
         {
             int num = 1;
-            if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
+            try
             {
-                num = 2;
-            }
-                string instructionsToDo = "";
-            for (int i = num; i < instructions.Count; i++)
-            {
-                instructionsToDo += instructions[i];
-                if (i != instructions.Count - 1)
+
+
+
+                if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
                 {
-                    instructionsToDo += " ";
+                    num = 2;
                 }
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                AnsiConsole.MarkupLine("Please enter a [italic red]weapon[/]");
+            }
+            string instructionsToDo = "";
+                for (int i = num; i < instructions.Count; i++)
+                {
+                    instructionsToDo += instructions[i];
+                    if (i != instructions.Count - 1)
+                    {
+                        instructionsToDo += " ";
+                    }
+                }
+
             Item EquippingItem = null;
             foreach (Item item in player.Inventory)
             {
@@ -762,6 +765,10 @@ namespace dungeonCore.Game
                 }
                 else { Console.WriteLine("Buy what?"); };
             }
+            else
+            {
+                Console.WriteLine("This room does not have anyone to talk to");
+            }
         }
     }
 
@@ -851,10 +858,27 @@ namespace dungeonCore.Game
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
         public static void DoAction(List<string> instructions, Player player)
         {
+
             if (player.GetLocation().GetChests().Count > 0)
             {
-                player.Open(player.GetLocation().GetChests()[0]);
-                player.GetLocation().RemoveChest(player.GetLocation().GetChests()[0]);
+                try
+                {
+                    if (instructions[1] != null)
+                    {
+                        try
+                        {
+                            player.Open(player.GetLocation().GetChests()[Convert.ToInt32(instructions[1]) - 1]);
+                        }
+                        catch (FormatException) { Console.WriteLine($"Must be a valid number between 1 and {player.GetLocation().GetChests().Count}"); }
+                        catch (ArgumentOutOfRangeException) { Console.WriteLine($"Must be a valid number between 1 and {player.GetLocation().GetChests().Count}"); }
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    player.Open(player.GetLocation().GetChests()[0]);
+                }
+
+
             }
             else { Console.WriteLine("There is nothing to open"); }
         }
@@ -968,14 +992,14 @@ namespace dungeonCore.Game
                     instructionsToDo += " ";
                 }
             }
-            var found1 = player.GetLocation().GetContents().Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
+            var found1 = player.Inventory.Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
             if (found1 != null && found1 is NoteItem)
             {
                 // Downcasting, but better than holding base class pointer.
                 // We don't want to always through away strong typing.
                 NoteItem note = (NoteItem)found1;
                 AnsiConsole.Markup($"You open your notebook and read the note labeled [italic 178]{note.GetName()}[/]\nIt reads:\n");
-                AnsiConsole.Markup(note.GetDescription());
+                AnsiConsole.Markup($"[italic grey]{note.GetDescription()}[/]");
             }
             else
             {
@@ -1076,7 +1100,7 @@ namespace dungeonCore.Game
             }
             else
             {
-                Console.WriteLine($"Sorry, I don't know how to do {instructions[0]}");
+                Console.WriteLine($"Sorry, I don't know how to do that");
             }
 
             return player.IsDead();

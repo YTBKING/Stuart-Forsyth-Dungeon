@@ -27,7 +27,7 @@ namespace Dungeon
 
         public override string ToString()
         {
-            return $"[italic 220]{Name}[/]: [italic red]-{Defence}[/] enemy damage: Worth [italic 178]{Value}g[/]";
+            return $"{Name}: [italic red]-{Defence}[/] enemy damage: Worth {Value}g";
         }
 
 

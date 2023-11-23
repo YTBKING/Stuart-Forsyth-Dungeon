@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,6 @@ namespace Dungeon
         public Dictionary<string, int> SpellBook = new Dictionary<string, int> {};
         private Random random;
         public WeaponItem EquipedWeapon;
-        public bool KeyObtained = false;
         private Item key;
         private int level = 1;
         private double Experience = 0;
@@ -146,7 +146,7 @@ namespace Dungeon
             SpellBook.Add(spell.GetName(), spell.GetSpellDamage());
         }
 
-        public void RemoveItem(Item item, int num)
+        public void RemoveItem(Item item, int num = 1)
         {
             for (int i = 1; i <= num; i++)
             {
@@ -182,7 +182,7 @@ namespace Dungeon
 
         public bool ObtainedKey()
         {
-            return KeyObtained;
+            return Inventory.Contains(key);
         }
         public bool LearnSpell(Item spell)
         {   try
@@ -236,26 +236,36 @@ namespace Dungeon
             InvDesc = "You are holding:";
 
 
-            string foods = "\n[italic red](Food Items)[/]\n";
+            string foods = "\n[italic underline red](Food Items)[/]\n";
             bool foodsC = false;
-            string weapons = "\n[italic silver](Weapons)[/]\n";
+
+            string weapons = "\n[italic underline royalblue1](Weapons)[/]\n";
             bool weaponsC = false;
-            string staffs = "\n[italic 39](Staffs)[/]\n";
+
+            string staffs = "\n[italic underline 39](Staffs)[/]\n";
             bool staffsC = false;
-            string armours = "\n[italic 220](Armours)[/]\n";
+
+            string armours = "\n[italic underline deeppink4_1](Armours)[/]\n";
             bool armoursC = false;
-            string spelltomes = "\n[italic 138](Spell Books)[/]\n";
+
+            string spelltomes = "\n[italic underline 138](Spell Books)[/]\n";
             bool spelltomesC = false;
-            string materials = "\n[italic green](Other Items)[/]\n";
+
+            string materials = "\n[italic underline green](Other Items)[/]\n";
             bool materialsC = false;
+
+            string spells = "\n[italic underline 75](Spells)[/]\n";
+            bool spellsC = false;
+
+            string keyitems = "\n[italic underline 178](Key Items)[/]\n";
+            bool keyitemsC = false;
+
+            string notes = "\n[italic underline 94](Notes)[/]\n";
+            bool notesC = false;
+
             string currWearing = $"\nEquipped Armour: {Armour}";
             string currUsing = $"\nEquipped Weapon: {EquipedWeapon}";
-            string spells = "\n[italic 75](Spells)[/]\n";
-            bool spellsC = false;
-            string keyitems = "\n[italic 178](Key Items)[/]\n";
-            bool keyitemsC = false;
-            string notes = "\n[italic 94](Notes)[/]\n";
-            bool notesC = false;
+
             for (int i = 0; i < Inventory.Count; i++)
             {
                 if (Inventory[i] is FoodItem)
@@ -299,7 +309,7 @@ namespace Dungeon
                 }
                 else if (Inventory[i] is NoteItem)
                 {
-                    notes += $"{Inventory[i]}:";
+                    notes += $"{Inventory[i]}";
                     notesC = true;
                 }
                 else
@@ -315,35 +325,35 @@ namespace Dungeon
             }
             if (!keyitemsC) 
             {
-                keyitems = "";
+                keyitems = "\n[italic underline 178]You have no Key Items[/]\n";
             }
             if (!weaponsC)
             {
-                weapons = "";
+                weapons = "\n[italic underline royalblue1]You have no weapons... somehow?[/]\n";
             }
             if (!armoursC)
             {
-                armours = "";
+                armours = "\n[italic underline deeppink4_1]You have no armours... Did you peel your skin off? Gross[/]\n";
             }
             if (!spelltomesC)
             {
-                spelltomes = "";
+                spelltomes = "\n[italic underline 138]You have no spell books[/]\n";
             }
             if (!materialsC)
             {
-                materials = "";
+                materials = "\n[italic underline green]You have no other items[/]\n";
             }
             if (!foodsC)
             {
-                foods = "";
+                foods = "\n[italic underline red]You have no food items[/]\n";
             }
             if (!staffsC)
             {
-                staffs = "";
+                staffs = "\n[italic underline 39]You have no staffs[/]\n";
             }
             if (!notesC)
             {
-                notes = "";
+                notes = "\n[italic underline 94]You have no notes[/]\n";
             }
             for (int i = 0; i < SpellBook.Count; i++ )
             {
@@ -352,11 +362,48 @@ namespace Dungeon
             }
             if (!spellsC)
             {
-                spells = "";
+                spells = "\n[italic underline 75]You have no spells[/]\n";
             }
 
+            // Ask for the user's inventory choice
+            string selection = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[bold underline fuchsia]What inventory would you like to view?[/]")
+                    .PageSize(10)
+                    .AddChoices(new[] {
+             "All", "Key Items", "Food Items", "Armours",
+            "Weapons", "Staffs", "Spell Books",
+            "Other Items", "Spells", "Notes",
+                    }));
 
-            return InvDesc + keyitems + notes + foods + weapons + staffs + armours + spelltomes + materials + spells + currUsing + currWearing;
+            // Echo the selection back to the terminal
+            switch (selection)
+            {
+                case "Key Items":
+                    return InvDesc + keyitems;
+                case "Food Items":
+                    return InvDesc + foods;
+                case "Armours":
+                    return InvDesc + armours + currWearing;
+                case "Weapons":
+                    return InvDesc + weapons + currUsing;
+                case "Staffs":
+                    return InvDesc + staffs;
+                case "Spell Books":
+                    return InvDesc + spelltomes;
+                case "Other Items":
+                    return InvDesc + materials;
+                case "Spells":
+                    return InvDesc + spells;
+                case "Notes":
+                    return InvDesc + notes;
+                case "All":
+                    return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + materials + spells + notes + currUsing + currWearing;
+                default:
+                    AnsiConsole.MarkupLine("Sorry but that is not a valid choice");
+                    break;
+            }
+            return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + materials + spells + notes + currUsing + currWearing;
         }
         #endregion
 
@@ -373,9 +420,10 @@ namespace Dungeon
                 bool invested = false;
                 while (!invested)
                 {
-                    Console.WriteLine("Would you like to level up Strength, Health, Agility or Mana? ");
+                    AnsiConsole.MarkupLine("[italic aqua]Would you like to level up Strength, Health, Agility or Mana?[/] ");
                     Console.ForegroundColor = ConsoleColor.White;
                     string invest = Console.ReadLine().ToUpper();
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     switch (invest)
                     {
                         case "STRENGTH":
@@ -386,10 +434,11 @@ namespace Dungeon
                             invested = true;
                             break;
                         case "HEALTH":
-                            Console.Write($"\nYou increased Health: {Health}");
+                            Console.Write($"\nYou increased Health: {MaxHealth}");
+                            MaxHealth += HealthChange;
                             Health += HealthChange;
                             HealthChange = Convert.ToInt32(HealthChange * 1.5);
-                            Console.Write($" -> {Health}\n");
+                            Console.Write($" -> {MaxHealth}\n");
                             invested = true;
                             break;
                         case "AGILITY":
@@ -504,22 +553,34 @@ namespace Dungeon
         public void Eat(string food)
         {
             int foodPosition;
-            if (food == "perma potion")
+            var found1 = Inventory.Find(item => item.GetName().ToLower() == food.ToLower());
+            if (found1 != null && found1 is PotionItem)
             {
-                MaxHealth += 20;
+                PotionItem potion = found1 as PotionItem;
+                if (potion.IsPermaBuff())
+                {
+                    MaxHealth += 20;
+                }
+
             }
 
             for (foodPosition = 0; foodPosition < Inventory.Count + 1; foodPosition++)
             {
                 if (foodPosition < Inventory.Count)
                 {
+                    if (Inventory[foodPosition].GetName().ToLower() == food.ToLower() && !Inventory[foodPosition].IsEdible)
+                    {
+                        Health = 0;
+                        IsDead();
+                        return;
+                    }
                     if (Inventory[foodPosition].GetName().ToLower() == food.ToLower() && Inventory[foodPosition].IsEdible)
                     {
                         if (Health + Inventory[foodPosition].GetHeals() <= MaxHealth)
                         {
-                            Console.WriteLine($"You ate {food}");
+
                             Health += Inventory[foodPosition].GetHeals();
-                            ;
+                            
                         }
                         else
                         {
@@ -527,23 +588,17 @@ namespace Dungeon
                         }
                         if (Mana + Inventory[foodPosition].GetManaHeals() <= MaxMana)
                         {
-                            Console.WriteLine($"You ate {food}");
                             Mana += Inventory[foodPosition].GetManaHeals();
                         }
                         else
                         {
                             Mana = MaxMana;
-                            Console.WriteLine($"You ate {food}");
                             
                         }
+                        Console.WriteLine($"You ate {food}");
                         Inventory.RemoveAt(foodPosition);
                         break;
 
-                    }
-                    else if (Inventory[foodPosition].GetName().ToLower() == food.ToLower() && !Inventory[foodPosition].IsEdible)
-                    {
-                        Console.WriteLine("You cant eat that");
-                        break;
                     }
                 }
                 else
@@ -553,9 +608,23 @@ namespace Dungeon
             }
         }
 
-        public void Open(Chest chest)
+        public bool Open(Chest chest)
         {
-            if (chest.GetContents().Count != 0)
+            if (chest.KeyRequired())
+            {
+                if (ObtainedKey())
+                {
+                    string answer = AnsiConsole.Ask<string>("[italic red]Would you like to use the key? Y/N[/]\n> ").ToLower();
+
+                    if (answer == "y")
+                    {
+                        chest.UnlockChest();
+                    }
+
+                }
+                else { Console.WriteLine("You need a key to unlock the chest"); return false; }
+            }
+            if (chest.GetContents().Count != 0 && !chest.KeyRequired())
             {
                 string contents = "";
                 while (chest.GetContents().Count != 0)
@@ -563,15 +632,18 @@ namespace Dungeon
                     
                     if (!contents.Contains(chest.GetContents()[0].GetName()))
                     {
-                        AnsiConsole.Markup($"You got [italic 178]{chest.GetContents().Count(n => n == chest.GetContents()[0])} {chest.GetContents()[0].GetName()}[/]\n");
+                        AnsiConsole.Markup($"[italic grey]You got[/] [italic 178]{chest.GetContents().Count(n => n == chest.GetContents()[0])} {chest.GetContents()[0].GetName()}[/]\n");
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     }
                     contents += chest.GetContents()[0].GetName();
                     AddItem(chest.GetContents()[0]);
                     chest.RemoveItem(chest.GetContents()[0]);
                 }
+                GetLocation().RemoveChest(chest);
+                return true;
             }
-            else { Console.WriteLine("The chest is already empty"); }
+            else if (chest.GetContents().Count == 0) { Console.WriteLine("The chest is already empty"); }
+            return false;
         }
         public string Talk(NPC npc)
         {
@@ -588,10 +660,15 @@ namespace Dungeon
 
             if (npc.GetGifts().Count != 0)
             {
+                int giftint = 0;
+                Item gift = null;
                 string giftui = "";
-                foreach (Item gift in npc.GetGifts())
+                while (npc.GetGifts().Count > 0)
                 {
+
+                    gift = npc.GetGifts()[giftint];
                     AddItem(gift);
+                    npc.RemoveGift(gift);
                     if (gift is WeaponItem)
                     {
                         if (!giftui.Contains(gift.GetName()))

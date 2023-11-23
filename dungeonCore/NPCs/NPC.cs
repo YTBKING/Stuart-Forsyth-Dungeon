@@ -48,6 +48,10 @@ namespace Dungeon
         {
             Gifts.Add(gift);
         }
+        public void RemoveGift(Item gift)
+        {
+            Gifts.Remove(gift);
+        }
         #endregion
 
         #region "Vendor Items"

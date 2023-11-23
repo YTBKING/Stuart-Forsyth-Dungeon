@@ -8,6 +8,15 @@ namespace Dungeon
 {
     class PotionItem : FoodItem
     {
-        public PotionItem(string name, string description, int healamount, int manahealamount, int value) : base(name, description, healamount, manahealamount, value) { }
+        private bool PermaBuff = false;
+        public PotionItem(string name, string description, int healamount, int manahealamount, int value, bool permaBuff = false) : base(name, description, healamount, manahealamount, value) 
+        {
+            PermaBuff = permaBuff;
+        }
+
+        public bool IsPermaBuff()
+        {
+            return PermaBuff;
+        }
     }
 }

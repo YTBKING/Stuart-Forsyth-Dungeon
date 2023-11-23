@@ -28,7 +28,6 @@ namespace Dungeon
  ██    ██  ██    █   █ ▀█▄ █  ██    ▄▄▄▄  ██▀▀█    ██      ██  █ ▀█▄ █  
  ██    ██  ██    █   █   ███  ▀█▄    ██   ██       ▀█▄     ██  █   ███  
 ▄██▄▄▄█▀    ▀█▄▄▀   ▄█▄   ▀█   ▀▀█▄▄▄▀█  ▄██▄▄▄▄▄█  ▀▀█▄▄▄█▀  ▄█▄   ▀█  ");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
 
             Console.WriteLine("\x1B[3m");
             dungeon.PlayGame();

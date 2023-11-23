@@ -14,3 +14,35 @@ E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\
 E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\Dungeon.pdb
 E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\Dungeon.genruntimeconfig.cache
 E:\School\Computer Science\Code\Stuart-Forsyth-Dungeon-main\dungeon\dungeonCore\obj\Debug\net8.0\ref\Dungeon.dll
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.exe
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.dll.config
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.deps.json
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.runtimeconfig.json
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.dll
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.pdb
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Spectre.Console.dll
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.AssemblyReference.cache
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.GeneratedMSBuildEditorConfig.editorconfig
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.CoreCompileInputs.cache
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.CopyComplete
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.dll
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\refint\Dungeon.dll
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.pdb
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.genruntimeconfig.cache
+\\esher.ac.uk\home\Students\2023\232649\Visual Studio 2022\My Projects\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\ref\Dungeon.dll
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.exe
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.dll.config
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.deps.json
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.runtimeconfig.json
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.dll
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Dungeon.pdb
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\bin\Debug\net8.0\Spectre.Console.dll
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.AssemblyReference.cache
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.GeneratedMSBuildEditorConfig.editorconfig
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.CoreCompileInputs.cache
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.csproj.CopyComplete
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.dll
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\refint\Dungeon.dll
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.pdb
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\Dungeon.genruntimeconfig.cache
+F:\School\Comp Sci\Code\Stuart-Forsyth-Dungeon-main\dungeonCore\obj\Debug\net8.0\ref\Dungeon.dll

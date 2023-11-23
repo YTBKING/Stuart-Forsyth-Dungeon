@@ -31,7 +31,7 @@ namespace Dungeon
         #endregion
         public override string ToString()
         {
-            return $"[italic red]{Name}[/]: [italic red]+{HealAmount}[/] health: +{ManaAmount} mana: Worth [italic 178]{Value}g[/]";
+            return $"{Name}: [italic red]+{HealAmount}[/] health: +{ManaAmount} mana: Worth {Value}g";
         }
     }
 }

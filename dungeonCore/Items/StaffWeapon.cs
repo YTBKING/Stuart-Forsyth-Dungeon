@@ -15,7 +15,7 @@
 
         public override string ToString()
         {
-            return $"[italic 39]{Name}[/]: [italic red]+{SpellDamageBuff}[/] spell damage: Worth [italic 178]{Value}g[/]";
+            return $"{Name}: [italic red]+{SpellDamageBuff}[/] spell damage: Worth {Value}g";
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Dungeon
         }
         public virtual bool TakeDamage(int damage, WeaponItem weapon = null)
         {
-
+            TrueDamage = damage;
             Health -= damage;
             if (Health <= 0)
             {

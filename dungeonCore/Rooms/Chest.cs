@@ -8,8 +8,12 @@ namespace Dungeon
 {
     public class Chest
     {
+        private bool KeyNeeded;
         private List<Item> Contents = new List<Item>();
-        public Chest() { }
+        public Chest(bool keyNeeded = false) 
+        {
+            KeyNeeded = keyNeeded;
+        }
 
         public void AddItem(Item item, int num = 1)
         {
@@ -18,6 +22,16 @@ namespace Dungeon
                 Contents.Add(item);
             }
 
+        }
+
+        public bool KeyRequired() 
+        {
+            return KeyNeeded;
+        }
+
+        public void UnlockChest()
+        {
+            KeyNeeded = false;
         }
 
         public List<Item> GetContents()

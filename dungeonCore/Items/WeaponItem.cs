@@ -27,23 +27,23 @@ namespace Dungeon
         {
             if (Rarity == "Common")
             {
-                return $"[italic silver]{Rarity}[/]";
+                return $"[italic bold silver]{Rarity}[/]";
             }
             else if (Rarity == "Uncommon")
             {
-                return $"[italic green1]{Rarity}[/]";
+                return $"[italic bold green1]{Rarity}[/]";
             }
             else if (Rarity == "Rare")
             {
-                return $"[italic 33]{Rarity}[/]";
+                return $"[italic bold 33]{Rarity}[/]";
             }
             else if (Rarity == "Epic")
             {
-                return $"[italic purple_2]{Rarity}[/]";
+                return $"[bold purple_2]{Rarity}[/]";
             }
             else if (Rarity == "Legendary")
             {
-                return $"[italic 220]{Rarity}[/]";
+                return $"[bold 220]{Rarity}[/]";
             }
             else if (Rarity == "Holy")
             {
@@ -59,7 +59,7 @@ namespace Dungeon
             }
             else if (Rarity == "Blazing")
             {
-                return $"[italic red3]{Rarity}[/]";
+                return $"[italic red3_1]{Rarity}[/]";
             }
             return Rarity;
         }
@@ -144,7 +144,7 @@ namespace Dungeon
 
         public override string ToString()
         {
-            return $"{GetRarity()} [italic silver]{Name}[/]. [italic red]+{GetDamage()}[/] damage. Worth [italic 178]{Value}g[/]";
+            return $"{GetRarity()} {Name}: [italic red]+{GetDamage()}[/] damage. Worth {Value}g";
         }
 
 

@@ -28,7 +28,7 @@ namespace Dungeon
         }
         public override string ToString()
         {
-            return $"[italic 138]{Name}[/]: [italic red]{SpellDamage}[/] damage: Worth [italic 178]{Value}g[/]";
+            return $"{Name}: [italic red]{SpellDamage}[/] damage: -{ManaDrain} mana: Worth {Value}g";
         }
     }
 }

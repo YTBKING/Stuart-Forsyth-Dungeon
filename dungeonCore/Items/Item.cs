@@ -67,7 +67,7 @@ namespace Dungeon
 
         public override string ToString()
         {
-            return ($"[italic green]{Name}[/]: Worth [italic 178]{Value}g[/]");
+            return ($"{Name}: Worth {Value}g ");
         }
     }
 }
