@@ -228,19 +228,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tomsk\\.nuget\\packages\\": {}
+    "C:\\Users\\232649\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
+      "projectUniqueName": "\\\\esher.ac.uk\\home\\Students\\2023\\232649\\Visual Studio 2022\\My Projects\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
       "projectName": "Dungeon",
-      "projectPath": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
-      "packagesPath": "C:\\Users\\tomsk\\.nuget\\packages\\",
-      "outputPath": "F:\\School\\Comp Sci\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\obj\\",
+      "projectPath": "\\\\esher.ac.uk\\home\\Students\\2023\\232649\\Visual Studio 2022\\My Projects\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
+      "packagesPath": "C:\\Users\\232649\\.nuget\\packages\\",
+      "outputPath": "\\\\esher.ac.uk\\home\\Students\\2023\\232649\\Visual Studio 2022\\My Projects\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tomsk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\232649\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

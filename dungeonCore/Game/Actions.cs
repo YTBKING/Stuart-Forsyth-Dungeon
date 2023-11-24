@@ -178,9 +178,16 @@ namespace dungeonCore.Game
                     }
                     catch (FormatException) { Console.WriteLine("Please enter a valid number"); }
                 }
-                player.RemoveItem(droppedItem, number);
-                player.GetLocation().AddItem(droppedItem);
-                Console.WriteLine("You dropped " + instructionsToDo);
+                if (droppedItem.GetName() == player.EquipedWeapon.GetName())
+                {
+                    Console.WriteLine("Cannot sell your equipped weapon");
+                }
+                else
+                {
+                    player.RemoveItem(droppedItem, number);
+                    player.GetLocation().AddItem(droppedItem);
+                    Console.WriteLine("You dropped " + instructionsToDo);
+                }
             }
             else if (droppedItem == null)
             {
@@ -255,7 +262,7 @@ namespace dungeonCore.Game
                                 player.GetLocation().AddItem(drops);
                             }
                             player.gold += creature.GetGold();
-                            Console.WriteLine($"You got {creature.GetGold()} gold");
+                            AnsiConsole.MarkupLine($"You got {creature.GetGold()} gold");
                             deadCreature = creature;
                         }
                         else
@@ -291,7 +298,7 @@ namespace dungeonCore.Game
                         }
                         player.Health -= damageTaken;
 
-                        Console.WriteLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
+                        AnsiConsole.MarkupLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
                         if (player.DoesDodge())
                         {
                             Console.WriteLine($"You dodged the attack");
@@ -303,11 +310,11 @@ namespace dungeonCore.Game
                             return;
                         }
                         dead = creature.TakeDamage(damage, player.EquipedWeapon);
-                        Console.WriteLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                        AnsiConsole.MarkupLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
 
                         if (dead)
                         {
-                            Console.WriteLine($"Your attack killed the {creature.GetName()}");
+                            AnsiConsole.MarkupLine($"Your attack killed the {creature.GetName()}");
                             player.AdjustExperience(creature.GetXp());
                             foreach (Item drops in creature.GetDrops())
                             {
@@ -315,10 +322,10 @@ namespace dungeonCore.Game
                                 player.GetLocation().AddItem(drops);
                             }
                             player.gold += creature.GetGold();
-                            Console.WriteLine($"You got {creature.GetGold()} gold");
+                            AnsiConsole.MarkupLine($"You got {creature.GetGold()} gold");
                             deadCreature = creature;
                         }
-                        else { Console.WriteLine($"The {creature.GetName()} has {creature.GetHealth()} health left"); }
+                        else { AnsiConsole.MarkupLine($"The {creature.GetName()} has {creature.GetHealth()} health left"); }
 
                     }
 
@@ -831,17 +838,23 @@ namespace dungeonCore.Game
                         }
                     }
                     catch (FormatException) { Console.WriteLine("Must be a valid number\n"); }
-
-                    player.RemoveItem(SoldItem, num);
-                    player.gold += SoldItem.GetValue() * num;
-                    if (player.talking is SellerNPC)
+                    if (SoldItem.GetName() == player.EquipedWeapon.GetName())
                     {
-                        player.talking.AddVendorItems(SoldItem, SoldItem.GetValue() + random.Next(1, 35));
-                        Console.WriteLine($"You sold {num} {itemToSell} to {player.talking.GetName()} for {SoldItem.GetValue() * num} gold");
+                        Console.WriteLine("Cannot sell your equipped weapon");
                     }
                     else
                     {
-                        Console.WriteLine($"You sold {num} {itemToSell} for {SoldItem.GetValue() * num} gold");
+                        player.RemoveItem(SoldItem, num);
+                        player.gold += SoldItem.GetValue() * num;
+                        if (player.talking is SellerNPC)
+                        {
+                            player.talking.AddVendorItems(SoldItem, SoldItem.GetValue() + random.Next(1, 35));
+                            Console.WriteLine($"You sold {num} {itemToSell} to {player.talking.GetName()} for {SoldItem.GetValue() * num} gold");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"You sold {num} {itemToSell} for {SoldItem.GetValue() * num} gold");
+                        }
                     }
                 }
             }

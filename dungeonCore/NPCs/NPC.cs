@@ -85,8 +85,17 @@ namespace Dungeon
             {
                 if (SellingAmount[intIndex] == -1)
                 {
-                    Console.WriteLine($"How many would you like to buy?");
-                    num = Convert.ToInt32(Console.ReadLine());
+                    while (true)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"How many would you like to buy?");
+                        try
+                        {
+                            num = Convert.ToInt32(Console.ReadLine());
+                            break;
+                        }
+                        catch(FormatException) { AnsiConsole.MarkupLine("[italic grey]Please enter a[/] [italic red]valid[/][italic grey] number[/]"); }
+                    }
                 }
                 else
                 {

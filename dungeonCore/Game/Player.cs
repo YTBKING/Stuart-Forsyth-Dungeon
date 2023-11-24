@@ -527,7 +527,10 @@ namespace Dungeon
         #region "Other commands"
         public void GetRecentNPC()
         {
-            talking = Location.GetNPC()[0];
+            try
+            {
+                talking = Location.GetNPC()[0];
+            } catch(ArgumentOutOfRangeException) { AnsiConsole.MarkupLine("No NPC to talk to"); }
         }
         public bool DoesDodge()
         {

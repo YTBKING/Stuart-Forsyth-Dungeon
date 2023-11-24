@@ -60,7 +60,7 @@ namespace Dungeon
             #endregion
 
             #region "Key Items"
-            KeyItem masterKey = new KeyItem("Key", "A key that can be used to unlock doors", 50);
+            KeyItem masterKey = new KeyItem("Keys", "A key that can be used to unlock doors", 50);
             KeyItem gold = new KeyItem("Gold", "Gold that can be used to buy and upgrade tools", 1, false);
             #endregion
 
@@ -224,9 +224,9 @@ namespace Dungeon
             startRoomChest.AddItem(bread);
             startRoomChest.AddItem(gold, 50);
 
-            Chest testRoomChest = new Chest(true);
+            /*Chest testRoomChest = new Chest(true);
             testRoomChest.AddItem(cheese);
-            testRoomChest.AddItem(bread);
+            testRoomChest.AddItem(bread);*/
 
             Chest demonsChest = new Chest();
             demonsChest.AddItem(frostbiteSword);
@@ -237,10 +237,11 @@ namespace Dungeon
             #region "StartRoom"
             startRoom.AddItem(water);
             startRoom.AddItem(glass);
-            startRoom.AddItem(masterKey);
+
             startRoom.AddChest(startRoomChest);
-            startRoom.AddCreature(testDummy);
-            startRoom.AddChest(testRoomChest);
+
+            //startRoom.AddChest(testRoomChest);
+
             // connections
             startRoom.AddConnection(new Connection(startRoom, lavaRoom, "north", true));
             startRoom.AddConnection(new Connection(startRoom, chestRoom, "east", false));
@@ -411,6 +412,7 @@ namespace Dungeon
             pc.SetLocation(startRoom);
             pc.SetName(name);
             pc.AddItem(apple);
+            pc.AddItem(cheese);
             pc.AddItem(stoneApple);
             pc.AddItem(fist);
             pc.AddItem(staleBread);
