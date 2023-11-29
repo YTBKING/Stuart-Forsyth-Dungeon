@@ -43,6 +43,7 @@ namespace Dungeon
         public List<int> ManaDrains = new List<int>();
         public NPC talking;
         public List<NoteItem> NoteBook = new List<NoteItem>();
+        private bool IsBlocking = false;
         #endregion
 
         public Player(int health, WeaponItem equipedWeapon, ArmourItem armour, KeyItem Key)
@@ -62,6 +63,15 @@ namespace Dungeon
         public bool IsDead()
         {
             return Health == 0;
+        }
+
+        public bool CheckBlocking()
+        {
+            return IsBlocking;
+        }
+        public void ChangeBlocking(bool change) 
+        { 
+            IsBlocking = change;
         }
 
         #region "Stats and changing"
@@ -103,9 +113,14 @@ namespace Dungeon
         {
             return Health;
         }
-        public int AdjustHealth(int health)
+        public int AddHealth(int health)
         {
             Health += health;
+            return Health;
+        }
+        public int RemoveHealth(int damage)
+        {
+            Health -= damage;
             return Health;
         }
         public void SetHealth(int health)
@@ -153,6 +168,10 @@ namespace Dungeon
                 Inventory.Remove(item);
             }
 
+        }
+        public ArmourItem GetArmour()
+        {
+            return Armour;
         }
 
         public void EquipItem(Item weapon)

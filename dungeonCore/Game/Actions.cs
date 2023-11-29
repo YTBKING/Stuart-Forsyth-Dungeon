@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -57,7 +58,7 @@ namespace dungeonCore.Game
             }
             else
             {
-                DoMove(instructions[1], player);
+                DoMove(instructions[1].ToLower(), player);
             }
         }
         private static void DoMove(string direction, Player player)
@@ -66,7 +67,7 @@ namespace dungeonCore.Game
             bool directionFound = false;
             for (int i = 0; i < exits.Count; i++)
             {
-                if (direction == exits[i])
+                if (direction == exits[i].ToLower())
                 {
                     directionFound = true;
                     if (!player.GetLocation().GetConnections()[i].GoThrough(player, direction, player.GetKey()))
@@ -141,8 +142,15 @@ namespace dungeonCore.Game
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
         public static void DoAction(List<string> instructions, Player player)
         {
+            string rarity = null;
+            int nums = 0;
+            if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
+            {
+                nums = 2;
+                rarity = instructions[1].ToLower();
+            }
             string instructionsToDo = "";
-            for (int i = 1; i < instructions.Count; i++)
+            for (int i = nums; i < instructions.Count; i++)
             {
                 instructionsToDo += instructions[i];
                 if (i != instructions.Count - 1)
@@ -165,7 +173,25 @@ namespace dungeonCore.Game
                 int number = 1;
                 if (player.Inventory.Count(n => n == droppedItem) > 1)
                 {
-
+                    foreach (Item item in player.Inventory)
+                    {
+                        if (item.GetName().ToLower() == instructionsToDo.ToLower())
+                        {
+                            if (item is WeaponItem)
+                            {
+                                WeaponItem weaponItem = (WeaponItem)item;
+                                if (weaponItem.GetTrueRarity().ToLower() == rarity)
+                                {
+                                    droppedItem = item;
+                                }
+                            }
+                        }
+                    }
+                    if (droppedItem is WeaponItem && rarity == null)
+                    {
+                        Console.WriteLine("Which weapon would you like to drop. Please enter rarity as well");
+                        return;
+                    }
                     try
                     {
                         Console.WriteLine($"How many would you like to drop: 1 -> {player.Inventory.Count(n => n == droppedItem)}");
@@ -537,14 +563,13 @@ namespace dungeonCore.Game
         public static void DoAction(List<string> instructions, Player player)
         {
             int num = 1;
+            string rarity = null;
             try
             {
-
-
-
                 if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
                 {
                     num = 2;
+                    rarity = instructions[1].ToLower();
                 }
             }
             catch (ArgumentOutOfRangeException)
@@ -571,6 +596,25 @@ namespace dungeonCore.Game
             }
             if (EquippingItem != null)
             {
+                foreach (Item item in player.Inventory)
+                {
+                    if (item.GetName().ToLower() == instructionsToDo.ToLower())
+                    {
+                        if (item is WeaponItem)
+                        {
+                            WeaponItem weaponItem = (WeaponItem)item;
+                            if (weaponItem.GetTrueRarity().ToLower() == rarity)
+                            {
+                                EquippingItem = item;
+                            }
+                        }
+                    }
+                }
+                if (EquippingItem is WeaponItem && rarity == null)
+                {
+                    Console.WriteLine("Which weapon would you like to equip. Please enter rarity as well");
+                    return;
+                }
                 player.EquipItem(EquippingItem);
             }
         }
@@ -786,9 +830,11 @@ namespace dungeonCore.Game
         public static void DoAction(List<string> instructions, Player player)
         {
             int nums = 1;
+            string rarity = null;
             if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
             {
                 nums = 2;
+                rarity = instructions[1].ToLower();
             }
             string instructionsToDo = "";
             for (int i = nums; i < instructions.Count; i++)
@@ -809,8 +855,29 @@ namespace dungeonCore.Game
             var SoldItem = player.Inventory.Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
             if (SoldItem != null)
             {
+
                 if (player.Inventory.Count(n => n == SoldItem) >= 1)
                 {
+                    foreach (Item item in player.Inventory)
+                    {
+                        if (item.GetName().ToLower() == instructionsToDo.ToLower())
+                        {
+                            if (item is WeaponItem)
+                            {
+                                WeaponItem weaponItem = (WeaponItem)item;
+                                if (weaponItem.GetTrueRarity().ToLower() == rarity)
+                                {
+                                    SoldItem = item;
+                                }
+                            }
+                        }
+                    }
+                    if (SoldItem is WeaponItem && rarity == null)
+                    {
+                        Console.WriteLine("Which weapon would you like to sell. Please enter rarity as well");
+                        return;
+                    }
+
                     try
                     {
                         while (true)
@@ -1042,6 +1109,16 @@ namespace dungeonCore.Game
         }
     }
 
+    // block
+    public class Block : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            player.ChangeBlocking(true);
+        }
+    }
+
     // quit
     public class Quit : IGameAction
     {
@@ -1101,7 +1178,9 @@ namespace dungeonCore.Game
                     {"mana", Mana.Instance},
                     {"r", Read.Instance},
                     {"read", Read.Instance},
-                    {"notes", Notes.Instance }
+                    {"notes", Notes.Instance },
+                    {"block", Block.Instance},
+                    {"mew", Block.Instance},
 
                 };
 

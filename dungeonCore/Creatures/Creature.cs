@@ -18,6 +18,7 @@ namespace Dungeon
         protected int GoldGiven;
         protected int Speed;
         public int TrueDamage;
+        protected bool IsAgressive = false;
         #endregion
 
         public Creature(string name, int health, double xp, int gold, int speed = 1, int powerLvl = 0)
@@ -32,6 +33,14 @@ namespace Dungeon
         }
 
         #region "Get Properties"
+        public void isAgressive()
+        {
+            IsAgressive = true;
+        }
+        public bool GetAggression()
+        {
+            return IsAgressive;
+        }
         public int GetGold()
         {
             return GoldGiven;

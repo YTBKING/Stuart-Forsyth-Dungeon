@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -170,7 +171,7 @@ namespace Dungeon
             testSeller.AddVendorItems(gold, 2);
             testSeller.AddVendorItems(helm, 5, 3);
             //startRoom.AddNPC(testSmith);
-            //startRoom.AddNPC(testSeller);
+            startRoom.AddNPC(testSeller);
             #endregion
             #region "Skip Room"
             SellerNPC skipSeller = new SellerNPC("Craig");
@@ -188,7 +189,7 @@ namespace Dungeon
 
             #region "Creatures
             #region "Bosses"
-            Dragon dragon = new Dragon(350, 5, 2, 500);
+            Dragon dragon = new Dragon(350, 10, 5, 500);
             BossCreature kingGarlock = new BossCreature("garlock", 30, 5, 100, 2, 50, "Holy");
             BossCreature testDummy = new BossCreature("test", 1, 150, 0, 0, 500);
             Celestial celestialKing = new Celestial("celestial", 300, 100, 30, 20000, 2000);
@@ -197,13 +198,14 @@ namespace Dungeon
             #endregion
             #region "Regular"
             Creature orc = new Creature("orc", 20, 50, 15, 1, 10);
+            orc.isAgressive();
             #endregion
             #region "Static Creatures"
             Connection wallRoomConnection = new Connection(wallRoom, skipRoom, "north");
-            StaticCreature fakeWallWallRoom = new StaticCreature("wall", 1, wallRoomConnection);
+            StaticCreature fakeWallWallRoom = new StaticCreature("north wall", 1, wallRoomConnection);
 
             Connection restRoomHiddenWall = new Connection(restRoom, archRoom, "west");
-            StaticCreature restHiddenWall = new StaticCreature("wall", 10, restRoomHiddenWall);
+            StaticCreature restHiddenWall = new StaticCreature("west wall", 10, restRoomHiddenWall);
             #endregion
             #endregion
 
@@ -304,10 +306,8 @@ namespace Dungeon
             #endregion
             #endregion
 
-
             #region "Class Setup"
-            string name = "KING";
-                //AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
+            string name = AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
             
             
             
@@ -376,7 +376,7 @@ namespace Dungeon
                         unassigned = false;
                         break;
                     case "[bold red3]Spitfire[/]":
-                        pc = new Player(100, sword, spitfireSet, masterKey);
+                        pc = new Player(100, blazingSword, spitfireSet, masterKey);
                         pc.SetStrength(13);
                         pc.SetMana(75);
                         pc.SetAgility(3);
@@ -407,7 +407,6 @@ namespace Dungeon
             pc.SetClass(selection);
             #endregion
 
-
             #region "Player Set Up"
             pc.SetLocation(startRoom);
             pc.SetName(name);
@@ -419,6 +418,8 @@ namespace Dungeon
             pc.AddItem(skin);
             pc.AddItem(apple);
             pc.AddItem(stoneApple);
+            pc.AddItem(blazingSword);
+            pc.AddItem(sword);
             pc.AddItem(stoneApple);
 
             #endregion
@@ -426,7 +427,24 @@ namespace Dungeon
             #region "Game"
             while (!gameOver)
             {
+                foreach (Creature creature in pc.GetLocation().GetCreatures())
+                {
+                    if (creature.GetAggression())
+                    {
+                        if (creature.GetSpeed() > pc.GetAgility()) 
+                        {
+                            if (!pc.CheckBlocking())
+                            {
+                                int damage = creature.GetAttackDamage(pc.GetArmour()); 
+                                pc.RemoveHealth(damage);
+                                AnsiConsole.MarkupLine($"[italic grey]The {creature.GetName()} attacked you suddenly, dealing[/] [italic red]{damage}[/][italic grey] damage[/]");
+                            }
+                            else { AnsiConsole.MarkupLine($"[italic grey]The {creature.GetName()} tried to attack you\nYou blocked the attack[/]"); }
+                        }
 
+                    }
+                }
+                pc.ChangeBlocking(false);
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("What would you like to do?\n");
@@ -442,7 +460,7 @@ namespace Dungeon
             // finish off nicely and close down
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(@"
-                                                                            
+                                                                             
 ▀███▀   ▀██▀ ▄▄█▀▀██▄  ▀███▀   ▀███▀   ▀███▀▀▀██▄ ▀████▀███▀▀▀███▀███▀▀▀██▄  
   ███   ▄█ ▄██▀    ▀██▄ ██       █       ██    ▀██▄ ██   ██    ▀█  ██    ▀██▄
    ███ ▄█  ██▀      ▀██ ██       █       ██     ▀██ ██   ██   █    ██     ▀██

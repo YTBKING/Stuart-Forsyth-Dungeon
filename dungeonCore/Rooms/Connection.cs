@@ -22,6 +22,37 @@ namespace Dungeon
             Direction = direction;
             KeyNeeded = keyNeeded;
         }
+        public static void MakeConnection(Room roomFrom, Room roomTo, String direction)
+        {
+
+
+            string opposite = string.Empty;
+            switch (direction)
+            {
+                case "north":
+                    opposite = "south";
+                    break;
+
+                case "south":
+                    opposite = "north";
+                    break;
+
+                case "west":
+                    opposite = "east";
+                    break;
+
+                case "east":
+                    opposite = "west";
+                    break;
+                default:
+                    throw new Exception("Unknown direction building room.");
+            }
+
+            Connection from = new Connection(roomFrom, roomTo, direction);
+            Connection to = new Connection(roomTo, roomFrom, opposite);
+            roomFrom.AddConnection(from);
+            roomTo.AddConnection(to);
+        }
 
         #region "Directions"
         public bool GoThrough(Player player, string direction, Item key)
@@ -45,6 +76,8 @@ namespace Dungeon
                     if (wantGo)
                     {
                         player.SetLocation(RoomTo);
+
+
                     }
 
                     if (KeyNeeded)

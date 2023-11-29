@@ -28,10 +28,23 @@ namespace Dungeon
         {
             return ManaAmount; 
         }
+
+        public string ChangeHeal()
+        {
+            if (HealAmount > 0)
+            {
+                return $"+{HealAmount}";
+            }
+            else if (HealAmount < 0)
+            {
+                return $"-{HealAmount}";
+            }
+            return "0";
+        }
         #endregion
         public override string ToString()
         {
-            return $"{Name}: [italic red]+{HealAmount}[/] health: +{ManaAmount} mana: Worth {Value}g";
+            return $"{Name}: [italic red]{ChangeHeal()}[/] health: +{ManaAmount} mana: Worth {Value}g";
         }
     }
 }
