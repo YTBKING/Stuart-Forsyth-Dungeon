@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dungeon.Rooms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,6 +76,18 @@ namespace Dungeon
                     }
                     if (wantGo)
                     {
+                        if (RoomTo is ChallengeRoom)
+                        {
+                            foreach (Creature creature in player.GetDeadCreatures())
+                            {
+                                if (!RoomTo.GetCreatures().Contains(creature))
+                                {
+                                    RoomTo.AddCreature(creature);
+                                }
+
+                            }
+
+                        }
                         player.SetLocation(RoomTo);
 
 

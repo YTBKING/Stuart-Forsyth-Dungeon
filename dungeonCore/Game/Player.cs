@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using Dungeon;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace Dungeon
         public NPC talking;
         public List<NoteItem> NoteBook = new List<NoteItem>();
         private bool IsBlocking = false;
+        private List<Creature> deadCreatures = new List<Creature>();
         #endregion
 
         public Player(int health, WeaponItem equipedWeapon, ArmourItem armour, KeyItem Key)
@@ -62,7 +64,7 @@ namespace Dungeon
         }
         public bool IsDead()
         {
-            return Health == 0;
+            return Health <= 0;
         }
 
         public bool CheckBlocking()
@@ -72,6 +74,14 @@ namespace Dungeon
         public void ChangeBlocking(bool change) 
         { 
             IsBlocking = change;
+        }
+        public List<Creature> GetDeadCreatures()
+        {
+            return deadCreatures;
+        }
+        public void AddDeadCreature(Creature creature)
+        {
+            deadCreatures.Add(creature);
         }
 
         #region "Stats and changing"

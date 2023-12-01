@@ -37,7 +37,7 @@ namespace Dungeon
             }
             else if (HealAmount < 0)
             {
-                return $"-{HealAmount}";
+                return $"{HealAmount}";
             }
             return "0";
         }

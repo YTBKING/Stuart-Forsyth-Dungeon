@@ -312,7 +312,7 @@ namespace dungeonCore.Game
                             }
 
                         }
-
+                        break;
 
                     }
                     else if (creature.GetSpeed() > player.Agility)
@@ -359,6 +359,7 @@ namespace dungeonCore.Game
             }
             if (deadCreature != null)
             {
+                player.AddDeadCreature(deadCreature);
                 player.GetLocation().RemoveCreature(deadCreature);
             }
         }
@@ -419,6 +420,7 @@ namespace dungeonCore.Game
                                     dead = creature.TakeSpellDamage(spell, player.SpellBook[spell]);
                                 }
                                 player.Mana -= drain;
+                                break;
                             }
 
                             if (dead)
@@ -450,6 +452,7 @@ namespace dungeonCore.Game
                     }
                     if (creatureToRemove != null)
                     {
+                        player.AddDeadCreature(creatureToRemove);
                         player.GetLocation().RemoveCreature(creatureToRemove);
                     }
                 }
@@ -945,6 +948,10 @@ namespace dungeonCore.Game
                 {
                     if (instructions[1] != null)
                     {
+                        if (instructions[1].ToLower() == "chest")
+                        {
+                            instructions[1] = "1";
+                        }
                         try
                         {
                             player.Open(player.GetLocation().GetChests()[Convert.ToInt32(instructions[1]) - 1]);
@@ -1129,8 +1136,6 @@ namespace dungeonCore.Game
         }
     }
 
-
-
     public class Command
     {
 
@@ -1154,6 +1159,7 @@ namespace dungeonCore.Game
                     {"cast", Cast.Instance },
                     {"examine", Examine.Instance },
                     {"eat", Eat.Instance },
+                    {"drink", Eat.Instance },
                     {"i", Inventory.Instance },
                     {"inventory", Inventory.Instance},
                     {"s", Stats.Instance },

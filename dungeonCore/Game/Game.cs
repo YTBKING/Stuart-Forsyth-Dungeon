@@ -1,4 +1,6 @@
-﻿using dungeonCore.Game;
+﻿using Dungeon;
+using Dungeon.Rooms;
+using dungeonCore.Game;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ namespace Dungeon
 
             
             Room startRoom = new Room("You are in the starting cave.");
+            ChallengeRoom graveyard = new ChallengeRoom("You can feel the souls of the fallen floating around the room");
             Room lavaRoom = new Room("You are in a dark cave with a glowing river of lava.", true);
             Room chestRoom = new Room("You are in a cold room.");
             Room darkRoom = new Room("You are in a black room, with the only light source being a single torch in the middle.");
@@ -51,7 +54,7 @@ namespace Dungeon
 
             #region "Potions"
             PotionItem potionOfHealing = new PotionItem("Health Potion", "A elegant looking bottle with a purple liquid inside", 20, 0, 25);
-            FoodItem potionOfPermaHealth = new FoodItem("Health++", "A potion that will permanently raise health by 20 points", 20, 0, 500, true);
+            PotionItem potionOfPermaHealth = new PotionItem("Health++", "A potion that will permanently raise health by 20 points", 20, 0, 500, true);
             #endregion
 
             #region "Other Items"
@@ -167,9 +170,8 @@ namespace Dungeon
             SmithNPC testSmith = new SmithNPC("Juicy");
 
             SellerNPC testSeller = new SellerNPC("Saul");
-            testSeller.AddVendorItems(woodenSword, 5);
-            testSeller.AddVendorItems(gold, 2);
-            testSeller.AddVendorItems(helm, 5, 3);
+            testSeller.AddVendorItems(woodenSword, 35);
+
             //startRoom.AddNPC(testSmith);
             startRoom.AddNPC(testSeller);
             #endregion
@@ -247,6 +249,11 @@ namespace Dungeon
             // connections
             startRoom.AddConnection(new Connection(startRoom, lavaRoom, "north", true));
             startRoom.AddConnection(new Connection(startRoom, chestRoom, "east", false));
+            startRoom.AddConnection(new Connection(startRoom, graveyard, "south"));
+            #endregion
+
+            #region "Graveyard"
+            graveyard.AddConnection(new Connection(graveyard, startRoom, "north"));
             #endregion
 
             #region "LavaRoom"
@@ -418,8 +425,6 @@ namespace Dungeon
             pc.AddItem(skin);
             pc.AddItem(apple);
             pc.AddItem(stoneApple);
-            pc.AddItem(blazingSword);
-            pc.AddItem(sword);
             pc.AddItem(stoneApple);
 
             #endregion
@@ -427,6 +432,11 @@ namespace Dungeon
             #region "Game"
             while (!gameOver)
             {
+                if (pc.IsDead())
+                {
+                    gameOver = true;
+                    break;
+                }
                 foreach (Creature creature in pc.GetLocation().GetCreatures())
                 {
                     if (creature.GetAggression())
@@ -438,6 +448,7 @@ namespace Dungeon
                                 int damage = creature.GetAttackDamage(pc.GetArmour()); 
                                 pc.RemoveHealth(damage);
                                 AnsiConsole.MarkupLine($"[italic grey]The {creature.GetName()} attacked you suddenly, dealing[/] [italic red]{damage}[/][italic grey] damage[/]");
+
                             }
                             else { AnsiConsole.MarkupLine($"[italic grey]The {creature.GetName()} tried to attack you\nYou blocked the attack[/]"); }
                         }
@@ -445,6 +456,11 @@ namespace Dungeon
                     }
                 }
                 pc.ChangeBlocking(false);
+                if (pc.IsDead())
+                {
+                    gameOver = true;
+                    break;
+                }
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("What would you like to do?\n");
