@@ -1,41 +1,45 @@
-﻿using Dungeon;
+﻿using Dungeon.Creatures;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Numerics;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using System.Text.Json.Serialization;
 
 namespace Dungeon
 {
     public class Player
     {
         #region "Properties"
+        [JsonInclude]
         private string Name;
         public int Health;
         public int MaxHealth;
         public int Strength = 0;
         public int Agility = 0;
+        [JsonInclude]
         private string classChoice;
+        [JsonInclude]
         private Room Location;
         public List<Item> Inventory = new List<Item>();
         public Dictionary<string, int> SpellBook = new Dictionary<string, int> {};
-        private Random random;
         public WeaponItem EquipedWeapon;
+        [JsonInclude]
         private Item key;
+        [JsonInclude]
         private int level = 1;
+        [JsonInclude]
         private double Experience = 0;
+        [JsonInclude]
+        private double privLvlXp = 0;
+        [JsonInclude]
         private double xpNeeded = 150;
-        private const double XP_INCREASE = 1.75;
-        private int strengthChange = 5;
+        [JsonInclude]
+        private double XP_INCREASE = 1.75;
+        [JsonInclude]
         private int HealthChange = 20;
         public int gold = 50;
         public ArmourItem Armour;
+        [JsonInclude]
         private string InvDesc = "";
         public List<string> SpellNames = new List<string>();
         public List<int> SpellDamages = new List<int>();
@@ -44,15 +48,23 @@ namespace Dungeon
         public List<int> ManaDrains = new List<int>();
         public NPC talking;
         public List<NoteItem> NoteBook = new List<NoteItem>();
+        [JsonInclude]
         private bool IsBlocking = false;
+        [JsonInclude]
         private List<Creature> deadCreatures = new List<Creature>();
+        [JsonInclude]
+        private List<Room> VisitedRooms = new List<Room>();
+        [JsonInclude]
+        private Room CheckpointRoom;
+        [JsonInclude]
+        private List<SummonCreature> Summoned = new List<SummonCreature>();
         #endregion
 
+        public Player() { }
         public Player(int health, WeaponItem equipedWeapon, ArmourItem armour, KeyItem Key)
         {
             Health = health;
             MaxHealth = health;
-            random = new Random();
             EquipedWeapon = equipedWeapon;
             key = Key;
             Armour = armour;
@@ -62,9 +74,32 @@ namespace Dungeon
         {
             Name = name;
         }
+        public double GetPrevXPNeeded()
+        {
+            return privLvlXp;
+        }
+        public void SetXP(double xp)
+        {
+            Experience = xp;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
         public bool IsDead()
         {
             return Health <= 0;
+        }
+        public List<Creatures.SummonCreature> GetSummons() { return Summoned; }
+        public void AddSummon(Creatures.SummonCreature summon)
+        {
+            Summoned.Add(summon);
+        }
+        public void RemoveSummon(Creatures.SummonCreature summon)
+        {
+            Summoned.Remove(summon);
         }
 
         public bool CheckBlocking()
@@ -163,6 +198,7 @@ namespace Dungeon
 
         public void AddItem(Item item)
         {
+
             Inventory.Add(item);
         }
 
@@ -187,8 +223,9 @@ namespace Dungeon
         public void EquipItem(Item weapon)
         {
             try 
-            { 
-                EquipedWeapon = (WeaponItem)weapon;
+            {
+                WeaponItem weaponToUse = (WeaponItem)weapon;
+                EquipedWeapon = weaponToUse;
                 Console.WriteLine("You have equipped " +  weapon.GetName());
                     
             }
@@ -201,11 +238,10 @@ namespace Dungeon
                 
         }
 
-    
-
         public void WearArmour(Item armour)
         {
-            Armour = (ArmourItem)armour;
+            ArmourItem armourToWear = (ArmourItem)armour;
+            Armour = armourToWear;
 
         }
 
@@ -213,6 +249,7 @@ namespace Dungeon
         {
             return Inventory.Contains(key);
         }
+
         public bool LearnSpell(Item spell)
         {   try
             {
@@ -230,7 +267,7 @@ namespace Dungeon
             }
             return false;
         }
-        
+
         public void UpdateSpellNamesList(string spell)
         {
             SpellNames.Add(spell);
@@ -280,6 +317,9 @@ namespace Dungeon
             string spelltomes = "\n[italic underline 138](Spell Books)[/]\n";
             bool spelltomesC = false;
 
+            string summons = "\n[italic underline 5](Summons)[/]\n";
+            bool summonsC = false;
+
             string materials = "\n[italic underline green](Other Items)[/]\n";
             bool materialsC = false;
 
@@ -294,6 +334,21 @@ namespace Dungeon
 
             string currWearing = $"\nEquipped Armour: {Armour}";
             string currUsing = $"\nEquipped Weapon: {EquipedWeapon}";
+            string currSummoned = $"\nCurrently Summoned Creatures:";
+            if (Summoned.Count != 0)
+            {
+                foreach (SummonCreature summon in Summoned)
+                {
+                    if (!currSummoned.Contains(summon.GetName()))
+                    {
+                        currSummoned += "\n" + summon;
+                        currSummoned += " x" + Summoned.Count(n => n == summon);
+                    }
+
+                }
+            }
+            else { currSummoned += "\nNone"; }
+
 
             for (int i = 0; i < Inventory.Count; i++)
             {
@@ -311,6 +366,11 @@ namespace Dungeon
                 {
                     staffs += $"{Inventory[i]}\n";
                     staffsC = true;
+                }
+                else if (Inventory[i] is SummonItem)
+                {
+                    summons += $"{Inventory[i]}\n";
+                    summonsC = true;
                 }
                 else if (Inventory[i] is WeaponItem)
                 {
@@ -352,6 +412,7 @@ namespace Dungeon
                 }
                 
             }
+            #region "Checks"
             if (!keyitemsC) 
             {
                 keyitems = "\n[italic underline 178]You have no Key Items[/]\n";
@@ -380,6 +441,10 @@ namespace Dungeon
             {
                 staffs = "\n[italic underline 39]You have no staffs[/]\n";
             }
+            if (!summonsC)
+            {
+                summons = "\n[italic underline 5]You have no Summons[/]\n";
+            }
             if (!notesC)
             {
                 notes = "\n[italic underline 94]You have no notes[/]\n";
@@ -393,16 +458,18 @@ namespace Dungeon
             {
                 spells = "\n[italic underline 75]You have no spells[/]\n";
             }
+            #endregion
 
+            #region "Selection Menu"
             // Ask for the user's inventory choice
             string selection = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[bold underline fuchsia]What inventory would you like to view?[/]")
-                    .PageSize(10)
+                    .PageSize(11)
                     .AddChoices(new[] {
              "All", "Key Items", "Food Items", "Armours",
-            "Weapons", "Staffs", "Spell Books",
-            "Other Items", "Spells", "Notes",
+            "Weapons", "Staffs", "Spell Books", "Summons",
+            "Other Items", "Spells", "Notes"
                     }));
 
             // Echo the selection back to the terminal
@@ -426,13 +493,16 @@ namespace Dungeon
                     return InvDesc + spells;
                 case "Notes":
                     return InvDesc + notes;
+                case "Summons":
+                    return InvDesc + summons + currSummoned;
                 case "All":
-                    return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + materials + spells + notes + currUsing + currWearing;
+                    return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + summons + materials + spells + notes + currUsing + currWearing;
                 default:
                     AnsiConsole.MarkupLine("Sorry but that is not a valid choice");
                     break;
             }
-            return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + materials + spells + notes + currUsing + currWearing;
+            #endregion
+            return InvDesc + keyitems + foods + weapons + staffs + armours + spelltomes + summons+ materials + spells + notes + currUsing + currWearing + currSummoned;
         }
         #endregion
 
@@ -443,6 +513,7 @@ namespace Dungeon
             while (Experience >= xpNeeded)
             {
                 level++;
+                privLvlXp = xpNeeded;
                 xpNeeded *= XP_INCREASE;
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("You Leveled Up");
@@ -510,11 +581,22 @@ namespace Dungeon
         #endregion
 
         #region "Location"
+        public Room GetCheckpoint()
+        {
+            return CheckpointRoom;
+        }
+        public void SetCheckpoint(Room room)
+        {
+            CheckpointRoom = room;
+        }
         public Room GetLocation()
         {
             return Location;
         }
-
+        public List<Room> GetVisited()
+        {
+            return VisitedRooms;
+        }
         public void SetLocation(Room location)
         {
             Location = location;
@@ -522,8 +604,7 @@ namespace Dungeon
             Console.WriteLine("\x1B[3m");
             AnsiConsole.Markup(Location.GetDescription());
             Console.WriteLine("\x1B[0m");
-
-
+            VisitedRooms.Add(location);
         }
 
         private void Move(String direction)
@@ -700,7 +781,6 @@ namespace Dungeon
 
                     gift = npc.GetGifts()[giftint];
                     AddItem(gift);
-                    npc.RemoveGift(gift);
                     if (gift is WeaponItem)
                     {
                         if (!giftui.Contains(gift.GetName()))
@@ -711,12 +791,13 @@ namespace Dungeon
                         }
                     }
 
-                    if (!giftui.Contains(gift.GetName()))
+                    else if (!giftui.Contains(gift.GetName()))
                     {
                        
                         giftui += $"[italic green]{gift.GetName()}[/]";
                         giftui += " x" + npc.GetGifts().Count(n => n == gift) + "\n";
                     }
+                    npc.RemoveGift(gift);
                 }
 
                 Console.WriteLine("Take this as a thank you for talking to me");
@@ -749,12 +830,19 @@ namespace Dungeon
             }
             else if (npc is SmithNPC) 
             {
-                shopui += $"You can upgrade your weapons here";
+                shopui += "You can upgrade your weapons and summons here";
+            }
+            else if (npc is ReforgeNPC)
+            {
+                shopui += "You can reforge special weapons here";
             }
             return shopui;
 
         }
         #endregion
-
+        public override string ToString()
+        {
+            return $"{Name}, {Location}, {talking}";
+        }
     }
 }

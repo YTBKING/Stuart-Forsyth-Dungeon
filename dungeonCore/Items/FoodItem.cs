@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -9,7 +10,9 @@ namespace Dungeon
     class FoodItem : Item
     {
         #region "Properties"
+        [JsonInclude]
         protected int HealAmount;
+        [JsonInclude]
         protected int ManaAmount;
         #endregion
         public FoodItem(string name, String description, int heals, int manaheals, int value, bool locked = false) : base(name, description, value, locked, true)

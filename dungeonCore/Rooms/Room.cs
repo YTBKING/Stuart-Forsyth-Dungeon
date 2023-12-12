@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -10,22 +11,40 @@ namespace Dungeon
     public class Room
     {
         #region "Properties"
+        [JsonInclude]
         private string Description;
-        private List<Item> Contents = new List<Item>();
+        [JsonInclude]
+        public List<Item> Contents = new List<Item>();
+        [JsonInclude]
         private List<Creature> Creatures = new List<Creature>();
+        [JsonInclude]
+        private List<Creature> DeadCreatures = new List<Creature>();
+        [JsonInclude]
         private List<Connection> Connections = new List<Connection>();
+        [JsonInclude]
         private List<StaticCreature> StaticCreatures = new List<StaticCreature>();
+        [JsonInclude]
         private List<Chest> Chests = new List<Chest>();
+        [JsonInclude]
         private List<NPC> NPCs = new List<NPC>();
-        bool KeyNeeded;
+        [JsonInclude]
         private bool ContainsNPC = false;
+        [JsonInclude]
+        private bool IsCheckpoint = false;
         #endregion
+        public Room() { }
         public Room(string description, bool keyNeeded = false)
         {
             Description = description;
-            KeyNeeded = keyNeeded;
         }
-
+        public void SetCheckpoint()
+        {
+            IsCheckpoint = true;
+        }
+        public bool CheckCheckpoint()
+        {
+            return IsCheckpoint;
+        }
         #region "NPC's"
         public bool HasNPC()
         {
@@ -103,10 +122,23 @@ namespace Dungeon
         public void RemoveCreature(Creature creature)
         {
             Creatures.Remove(creature);
+            DeadCreatures.Add(creature);
         }
         public List<Creature> GetCreatures()
         {
             return Creatures;
+        }
+        #endregion
+
+        #region "Dead Creatures"
+        public List<Creature> GetDeadCreatures()
+        {
+            return DeadCreatures;
+        }
+
+        public void RemoveDeadCreatures(Creature creature)
+        {
+            DeadCreatures.Remove(creature);
         }
         #endregion
 

@@ -1,0 +1,1969 @@
+{
+  "$id": "1",
+  "Name": "LOMG",
+  "Health": 120,
+  "MaxHealth": 120,
+  "Strength": 15,
+  "Agility": 8,
+  "classChoice": "[bold darkred_1]HellSpawn[/]",
+  "Location": {
+    "$id": "2",
+    "Description": "You are in the starting cave.",
+    "Contents": {
+      "$id": "3",
+      "$values": [
+        {
+          "$id": "4",
+          "Name": "Water",
+          "Description": "Everian, the best!.",
+          "IsEdible": true,
+          "Value": 0,
+          "Locked": false,
+          "IsArmour": false
+        },
+        {
+          "$id": "5",
+          "Name": "Glass",
+          "Description": "Glassy glass.",
+          "IsEdible": false,
+          "Value": 12,
+          "Locked": false,
+          "IsArmour": false
+        }
+      ]
+    },
+    "Creatures": {
+      "$id": "6",
+      "$values": [
+      ]
+    },
+    "Connections": {
+      "$id": "7",
+      "$values": [
+        {
+          "$id": "8",
+          "RoomFrom": {
+            "$ref": "2"
+          },
+          "RoomTo": {
+            "$id": "9",
+            "Description": "You are in a dark cave with a glowing river of lava.",
+            "Contents": {
+              "$id": "10",
+              "$values": [
+              ]
+            },
+            "Creatures": {
+              "$id": "11",
+              "$values": [
+                {
+                  "$id": "12",
+                  "Name": "dragon",
+                  "Health": 100,
+                  "random": {
+                    "$id": "13"
+                  },
+                  "Drops": {
+                    "$id": "14",
+                    "$values": [
+                      {
+                        "$id": "15",
+                        "Name": "Health\u002B\u002B",
+                        "Description": "A potion that will permanently raise health by 20 points",
+                        "IsEdible": true,
+                        "Value": 500,
+                        "Locked": false,
+                        "IsArmour": false
+                      },
+                      {
+                        "$id": "16",
+                        "Name": "Sword",
+                        "Description": "A sacred blade that was wielded by the paladins",
+                        "IsEdible": false,
+                        "Value": 20,
+                        "Locked": false,
+                        "IsArmour": false
+                      }
+                    ]
+                  },
+                  "XP": 350,
+                  "PowerLvl": 10,
+                  "GoldGiven": 500,
+                  "Speed": 5,
+                  "TrueDamage": 0,
+                  "IsAgressive": false
+                }
+              ]
+            },
+            "Connections": {
+              "$id": "17",
+              "$values": [
+                {
+                  "$id": "18",
+                  "RoomFrom": {
+                    "$ref": "9"
+                  },
+                  "RoomTo": {
+                    "$ref": "2"
+                  },
+                  "Direction": "south",
+                  "KeyNeeded": false
+                },
+                {
+                  "$id": "19",
+                  "RoomFrom": {
+                    "$ref": "9"
+                  },
+                  "RoomTo": {
+                    "$id": "20",
+                    "Description": "You are in a simple room that has clearly not been entered in hundreds of years",
+                    "Contents": {
+                      "$id": "21",
+                      "$values": [
+                      ]
+                    },
+                    "Creatures": {
+                      "$id": "22",
+                      "$values": [
+                      ]
+                    },
+                    "Connections": {
+                      "$id": "23",
+                      "$values": [
+                        {
+                          "$id": "24",
+                          "RoomFrom": {
+                            "$ref": "20"
+                          },
+                          "RoomTo": {
+                            "$id": "25",
+                            "Description": "You are in a room with solid brick walls surrounding it.\nOn the north side of the wall you can see a cracked wall with a ray of light beaming through",
+                            "Contents": {
+                              "$id": "26",
+                              "$values": [
+                              ]
+                            },
+                            "Creatures": {
+                              "$id": "27",
+                              "$values": [
+                              ]
+                            },
+                            "Connections": {
+                              "$id": "28",
+                              "$values": [
+                                {
+                                  "$id": "29",
+                                  "RoomFrom": {
+                                    "$ref": "25"
+                                  },
+                                  "RoomTo": {
+                                    "$id": "30",
+                                    "Description": "You are in a cold room.",
+                                    "Contents": {
+                                      "$id": "31",
+                                      "$values": [
+                                      ]
+                                    },
+                                    "Creatures": {
+                                      "$id": "32",
+                                      "$values": [
+                                        {
+                                          "$id": "33",
+                                          "Name": "orc",
+                                          "Health": 20,
+                                          "random": {
+                                            "$id": "34"
+                                          },
+                                          "Drops": {
+                                            "$id": "35",
+                                            "$values": [
+                                            ]
+                                          },
+                                          "XP": 50,
+                                          "PowerLvl": 10,
+                                          "GoldGiven": 15,
+                                          "Speed": 5,
+                                          "TrueDamage": 0,
+                                          "IsAgressive": true
+                                        }
+                                      ]
+                                    },
+                                    "Connections": {
+                                      "$id": "36",
+                                      "$values": [
+                                        {
+                                          "$id": "37",
+                                          "RoomFrom": {
+                                            "$ref": "30"
+                                          },
+                                          "RoomTo": {
+                                            "$ref": "2"
+                                          },
+                                          "Direction": "west",
+                                          "KeyNeeded": false
+                                        },
+                                        {
+                                          "$id": "38",
+                                          "RoomFrom": {
+                                            "$ref": "30"
+                                          },
+                                          "RoomTo": {
+                                            "$id": "39",
+                                            "Description": "You are in a black room, with the only light source being a single torch in the middle.",
+                                            "Contents": {
+                                              "$id": "40",
+                                              "$values": [
+                                              ]
+                                            },
+                                            "Creatures": {
+                                              "$id": "41",
+                                              "$values": [
+                                                {
+                                                  "$id": "42",
+                                                  "Name": "garlock",
+                                                  "Health": 60,
+                                                  "random": {
+                                                    "$id": "43"
+                                                  },
+                                                  "Drops": {
+                                                    "$id": "44",
+                                                    "$values": [
+                                                      {
+                                                        "$id": "45",
+                                                        "Name": "Keys",
+                                                        "Description": "A key that can be used to unlock doors",
+                                                        "IsEdible": false,
+                                                        "Value": 50,
+                                                        "Locked": true,
+                                                        "IsArmour": false
+                                                      },
+                                                      {
+                                                        "$id": "46",
+                                                        "Name": "Engulf",
+                                                        "Description": "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant",
+                                                        "IsEdible": false,
+                                                        "Value": 60,
+                                                        "Locked": false,
+                                                        "IsArmour": false
+                                                      }
+                                                    ]
+                                                  },
+                                                  "XP": 5,
+                                                  "PowerLvl": 4,
+                                                  "GoldGiven": 50,
+                                                  "Speed": 100,
+                                                  "TrueDamage": 0,
+                                                  "IsAgressive": false
+                                                }
+                                              ]
+                                            },
+                                            "Connections": {
+                                              "$id": "47",
+                                              "$values": [
+                                                {
+                                                  "$id": "48",
+                                                  "RoomFrom": {
+                                                    "$ref": "39"
+                                                  },
+                                                  "RoomTo": {
+                                                    "$ref": "30"
+                                                  },
+                                                  "Direction": "north",
+                                                  "KeyNeeded": false
+                                                }
+                                              ]
+                                            },
+                                            "StaticCreatures": {
+                                              "$id": "49",
+                                              "$values": [
+                                              ]
+                                            },
+                                            "Chests": {
+                                              "$id": "50",
+                                              "$values": [
+                                              ]
+                                            },
+                                            "NPCs": {
+                                              "$id": "51",
+                                              "$values": [
+                                              ]
+                                            },
+                                            "ContainsNPC": false,
+                                            "IsCheckpoint": false
+                                          },
+                                          "Direction": "south",
+                                          "KeyNeeded": false
+                                        },
+                                        {
+                                          "$id": "52",
+                                          "RoomFrom": {
+                                            "$ref": "30"
+                                          },
+                                          "RoomTo": {
+                                            "$ref": "25"
+                                          },
+                                          "Direction": "north",
+                                          "KeyNeeded": false
+                                        }
+                                      ]
+                                    },
+                                    "StaticCreatures": {
+                                      "$id": "53",
+                                      "$values": [
+                                      ]
+                                    },
+                                    "Chests": {
+                                      "$id": "54",
+                                      "$values": [
+                                      ]
+                                    },
+                                    "NPCs": {
+                                      "$id": "55",
+                                      "$values": [
+                                      ]
+                                    },
+                                    "ContainsNPC": false,
+                                    "IsCheckpoint": false
+                                  },
+                                  "Direction": "south",
+                                  "KeyNeeded": false
+                                }
+                              ]
+                            },
+                            "StaticCreatures": {
+                              "$id": "56",
+                              "$values": [
+                                {
+                                  "$id": "57",
+                                  "Name": "north wall",
+                                  "Health": 1,
+                                  "HiddenConnection": {
+                                    "$id": "58",
+                                    "RoomFrom": {
+                                      "$ref": "25"
+                                    },
+                                    "RoomTo": {
+                                      "$ref": "20"
+                                    },
+                                    "Direction": "north",
+                                    "KeyNeeded": false
+                                  }
+                                }
+                              ]
+                            },
+                            "Chests": {
+                              "$id": "59",
+                              "$values": [
+                              ]
+                            },
+                            "NPCs": {
+                              "$id": "60",
+                              "$values": [
+                              ]
+                            },
+                            "ContainsNPC": false,
+                            "IsCheckpoint": false
+                          },
+                          "Direction": "south",
+                          "KeyNeeded": false
+                        },
+                        {
+                          "$id": "61",
+                          "RoomFrom": {
+                            "$ref": "20"
+                          },
+                          "RoomTo": {
+                            "$ref": "9"
+                          },
+                          "Direction": "west",
+                          "KeyNeeded": false
+                        }
+                      ]
+                    },
+                    "StaticCreatures": {
+                      "$id": "62",
+                      "$values": [
+                      ]
+                    },
+                    "Chests": {
+                      "$id": "63",
+                      "$values": [
+                      ]
+                    },
+                    "NPCs": {
+                      "$id": "64",
+                      "$values": [
+                        {
+                          "$id": "65",
+                          "Name": "Craig",
+                          "Dialogue": "",
+                          "SellingItems": {
+                            "$id": "66",
+                            "$values": [
+                              {
+                                "$ref": "16"
+                              },
+                              {
+                                "$ref": "15"
+                              }
+                            ]
+                          },
+                          "SellingCosts": {
+                            "$id": "67",
+                            "$values": [
+                              45,
+                              650
+                            ]
+                          },
+                          "SellingAmount": {
+                            "$id": "68",
+                            "$values": [
+                              -1,
+                              -1
+                            ]
+                          },
+                          "Gifts": {
+                            "$id": "69",
+                            "$values": [
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "ContainsNPC": true,
+                    "IsCheckpoint": false
+                  },
+                  "Direction": "east",
+                  "KeyNeeded": false
+                },
+                {
+                  "$id": "70",
+                  "RoomFrom": {
+                    "$ref": "9"
+                  },
+                  "RoomTo": {
+                    "$id": "71",
+                    "Description": "You are in a beautiful room, with a large fountain residing in the middle, chisseled out of the surroudning rock walls. You can also see carvings along the west wall in the shape of an archway.",
+                    "Contents": {
+                      "$id": "72",
+                      "$values": [
+                      ]
+                    },
+                    "Creatures": {
+                      "$id": "73",
+                      "$values": [
+                      ]
+                    },
+                    "Connections": {
+                      "$id": "74",
+                      "$values": [
+                        {
+                          "$id": "75",
+                          "RoomFrom": {
+                            "$ref": "71"
+                          },
+                          "RoomTo": {
+                            "$ref": "9"
+                          },
+                          "Direction": "South",
+                          "KeyNeeded": false
+                        }
+                      ]
+                    },
+                    "StaticCreatures": {
+                      "$id": "76",
+                      "$values": [
+                        {
+                          "$id": "77",
+                          "Name": "west wall",
+                          "Health": 10,
+                          "HiddenConnection": {
+                            "$id": "78",
+                            "RoomFrom": {
+                              "$ref": "71"
+                            },
+                            "RoomTo": {
+                              "$id": "79",
+                              "Description": "A clearly abandoned room with writing scrawled along the sides. There is a desk with a pen and quill",
+                              "Contents": {
+                                "$id": "80",
+                                "$values": [
+                                  {
+                                    "$id": "81",
+                                    "Name": "Old note",
+                                    "Description": "Day 86:\nI have been trapped here for 86 days now since the cave-in. What am i to do? I dont know if I will be rescued. Why has no one come for me yet. I swear I will have my revenge on that monster. Why has no one come for me?",
+                                    "IsEdible": false,
+                                    "Value": 1,
+                                    "Locked": true,
+                                    "IsArmour": false
+                                  }
+                                ]
+                              },
+                              "Creatures": {
+                                "$id": "82",
+                                "$values": [
+                                  {
+                                    "$id": "83",
+                                    "Name": "vengefull spirit",
+                                    "Health": 35,
+                                    "random": {
+                                      "$id": "84"
+                                    },
+                                    "Drops": {
+                                      "$id": "85",
+                                      "$values": [
+                                        {
+                                          "$id": "86",
+                                          "Name": "Straight Sword",
+                                          "Description": "A sharpened blade filled with the anger of dead souls",
+                                          "IsEdible": false,
+                                          "Value": 200,
+                                          "Locked": false,
+                                          "IsArmour": false
+                                        }
+                                      ]
+                                    },
+                                    "XP": 80,
+                                    "PowerLvl": 4,
+                                    "GoldGiven": 62,
+                                    "Speed": 12,
+                                    "TrueDamage": 0,
+                                    "IsAgressive": true
+                                  }
+                                ]
+                              },
+                              "Connections": {
+                                "$id": "87",
+                                "$values": [
+                                  {
+                                    "$id": "88",
+                                    "RoomFrom": {
+                                      "$ref": "79"
+                                    },
+                                    "RoomTo": {
+                                      "$ref": "71"
+                                    },
+                                    "Direction": "east",
+                                    "KeyNeeded": false
+                                  },
+                                  {
+                                    "$id": "89",
+                                    "RoomFrom": {
+                                      "$ref": "79"
+                                    },
+                                    "RoomTo": {
+                                      "$id": "90",
+                                      "Description": "You notice ice encasing the walls of the room. Frozen bodies lie dormant across the ground, however for some reason, you do not feel cold",
+                                      "Contents": {
+                                        "$id": "91",
+                                        "$values": [
+                                        ]
+                                      },
+                                      "Creatures": {
+                                        "$id": "92",
+                                        "$values": [
+                                        ]
+                                      },
+                                      "Connections": {
+                                        "$id": "93",
+                                        "$values": [
+                                        ]
+                                      },
+                                      "StaticCreatures": {
+                                        "$id": "94",
+                                        "$values": [
+                                        ]
+                                      },
+                                      "Chests": {
+                                        "$id": "95",
+                                        "$values": [
+                                          {
+                                            "$id": "96",
+                                            "KeyNeeded": false,
+                                            "Contents": {
+                                              "$id": "97",
+                                              "$values": [
+                                                {
+                                                  "$id": "98",
+                                                  "Name": "Frostbite",
+                                                  "Description": "A jagged dagger with ice radiating off of it. It\u0027s cold to the touch",
+                                                  "IsEdible": false,
+                                                  "Value": 100,
+                                                  "Locked": false,
+                                                  "IsArmour": false
+                                                },
+                                                {
+                                                  "$id": "99",
+                                                  "Name": "Gold",
+                                                  "Description": "Gold that can be used to buy and upgrade tools",
+                                                  "IsEdible": false,
+                                                  "Value": 1,
+                                                  "Locked": false,
+                                                  "IsArmour": false
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                },
+                                                {
+                                                  "$ref": "99"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "NPCs": {
+                                        "$id": "100",
+                                        "$values": [
+                                        ]
+                                      },
+                                      "ContainsNPC": false,
+                                      "IsCheckpoint": false
+                                    },
+                                    "Direction": "north",
+                                    "KeyNeeded": false
+                                  }
+                                ]
+                              },
+                              "StaticCreatures": {
+                                "$id": "101",
+                                "$values": [
+                                ]
+                              },
+                              "Chests": {
+                                "$id": "102",
+                                "$values": [
+                                ]
+                              },
+                              "NPCs": {
+                                "$id": "103",
+                                "$values": [
+                                ]
+                              },
+                              "ContainsNPC": false,
+                              "IsCheckpoint": false
+                            },
+                            "Direction": "west",
+                            "KeyNeeded": false
+                          }
+                        }
+                      ]
+                    },
+                    "Chests": {
+                      "$id": "104",
+                      "$values": [
+                      ]
+                    },
+                    "NPCs": {
+                      "$id": "105",
+                      "$values": [
+                        {
+                          "$id": "106",
+                          "Name": "Fleur",
+                          "Dialogue": "People used to say that there was a beautiful archway that led to a whole \u0027nother cave system. I wonder where it went",
+                          "SellingItems": {
+                            "$id": "107",
+                            "$values": [
+                              {
+                                "$id": "108",
+                                "Name": "Health Potion",
+                                "Description": "A elegant looking bottle with a purple liquid inside",
+                                "IsEdible": true,
+                                "Value": 25,
+                                "Locked": false,
+                                "IsArmour": false
+                              },
+                              {
+                                "$id": "109",
+                                "Name": "Helm",
+                                "Description": "A simple metal helmet",
+                                "IsEdible": false,
+                                "Value": 20,
+                                "Locked": false,
+                                "IsArmour": true
+                              }
+                            ]
+                          },
+                          "SellingCosts": {
+                            "$id": "110",
+                            "$values": [
+                              30,
+                              20
+                            ]
+                          },
+                          "SellingAmount": {
+                            "$id": "111",
+                            "$values": [
+                              3,
+                              1
+                            ]
+                          },
+                          "Gifts": {
+                            "$id": "112",
+                            "$values": [
+                              {
+                                "$ref": "108"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "ContainsNPC": true,
+                    "IsCheckpoint": false
+                  },
+                  "Direction": "north",
+                  "KeyNeeded": false
+                }
+              ]
+            },
+            "StaticCreatures": {
+              "$id": "113",
+              "$values": [
+              ]
+            },
+            "Chests": {
+              "$id": "114",
+              "$values": [
+              ]
+            },
+            "NPCs": {
+              "$id": "115",
+              "$values": [
+              ]
+            },
+            "ContainsNPC": false,
+            "IsCheckpoint": false
+          },
+          "Direction": "north",
+          "KeyNeeded": true
+        },
+        {
+          "$id": "116",
+          "RoomFrom": {
+            "$ref": "2"
+          },
+          "RoomTo": {
+            "$ref": "30"
+          },
+          "Direction": "east",
+          "KeyNeeded": false
+        },
+        {
+          "$id": "117",
+          "RoomFrom": {
+            "$ref": "2"
+          },
+          "RoomTo": {
+            "$id": "118",
+            "Description": "You can feel the souls of the fallen floating around the room",
+            "Contents": {
+              "$id": "119",
+              "$values": [
+              ]
+            },
+            "Creatures": {
+              "$id": "120",
+              "$values": [
+              ]
+            },
+            "Connections": {
+              "$id": "121",
+              "$values": [
+                {
+                  "$id": "122",
+                  "RoomFrom": {
+                    "$ref": "118"
+                  },
+                  "RoomTo": {
+                    "$ref": "2"
+                  },
+                  "Direction": "north",
+                  "KeyNeeded": false
+                }
+              ]
+            },
+            "StaticCreatures": {
+              "$id": "123",
+              "$values": [
+              ]
+            },
+            "Chests": {
+              "$id": "124",
+              "$values": [
+              ]
+            },
+            "NPCs": {
+              "$id": "125",
+              "$values": [
+              ]
+            },
+            "ContainsNPC": false,
+            "IsCheckpoint": false
+          },
+          "Direction": "south",
+          "KeyNeeded": false
+        }
+      ]
+    },
+    "StaticCreatures": {
+      "$id": "126",
+      "$values": [
+      ]
+    },
+    "Chests": {
+      "$id": "127",
+      "$values": [
+        {
+          "$id": "128",
+          "KeyNeeded": false,
+          "Contents": {
+            "$id": "129",
+            "$values": [
+              {
+                "$id": "130",
+                "Name": "Cheese",
+                "Description": "Stinky old cheese that has clearly been here for years",
+                "IsEdible": true,
+                "Value": 1,
+                "Locked": false,
+                "IsArmour": false
+              },
+              {
+                "$id": "131",
+                "Name": "Bread",
+                "Description": "A small slice of bread",
+                "IsEdible": true,
+                "Value": 5,
+                "Locked": false,
+                "IsArmour": false
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              },
+              {
+                "$ref": "99"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "NPCs": {
+      "$id": "132",
+      "$values": [
+        {
+          "$id": "133",
+          "Name": "Damian",
+          "Dialogue": "",
+          "SellingItems": {
+            "$id": "134",
+            "$values": [
+            ]
+          },
+          "SellingCosts": {
+            "$id": "135",
+            "$values": [
+            ]
+          },
+          "SellingAmount": {
+            "$id": "136",
+            "$values": [
+            ]
+          },
+          "Gifts": {
+            "$id": "137",
+            "$values": [
+            ]
+          }
+        },
+        {
+          "$id": "138",
+          "Name": "Saul",
+          "Dialogue": "",
+          "SellingItems": {
+            "$id": "139",
+            "$values": [
+              {
+                "$id": "140",
+                "Name": "Wooden Sword",
+                "Description": "A splintered old sword",
+                "IsEdible": false,
+                "Value": 10,
+                "Locked": false,
+                "IsArmour": false
+              }
+            ]
+          },
+          "SellingCosts": {
+            "$id": "141",
+            "$values": [
+              35
+            ]
+          },
+          "SellingAmount": {
+            "$id": "142",
+            "$values": [
+              -1
+            ]
+          },
+          "Gifts": {
+            "$id": "143",
+            "$values": [
+            ]
+          }
+        }
+      ]
+    },
+    "ContainsNPC": true,
+    "IsCheckpoint": false
+  },
+  "Inventory": {
+    "$id": "144",
+    "$values": [
+      {
+        "$id": "145",
+        "Name": "Hells Dagger",
+        "Description": "A dagger forged in the upper levels of hell. Not especially strong, but highly effective against holy creatures",
+        "IsEdible": false,
+        "Value": 30,
+        "Locked": false,
+        "IsArmour": false
+      },
+      {
+        "$id": "146",
+        "Name": "Hellspawn Set",
+        "Description": "A flimsy leather waist strap with gloves and boots",
+        "IsEdible": false,
+        "Value": 20,
+        "Locked": false,
+        "IsArmour": true
+      },
+      {
+        "$id": "147",
+        "Name": "FlameSpear",
+        "Description": "A spell book containing FlameSpear. Throw a spear of fire towards tour enemy",
+        "IsEdible": false,
+        "Value": 50,
+        "Locked": false,
+        "IsArmour": false
+      },
+      {
+        "$id": "148",
+        "Name": "Apple",
+        "Description": "a beautiful rosy red apple, it looks delicious.",
+        "IsEdible": true,
+        "Value": 2,
+        "Locked": false,
+        "IsArmour": false
+      },
+      {
+        "$ref": "130"
+      },
+      {
+        "$id": "149",
+        "Name": "Stone Apple",
+        "Description": "A beautiful apple made of stone.",
+        "IsEdible": false,
+        "Value": 12,
+        "Locked": false,
+        "IsArmour": false
+      },
+      {
+        "$id": "150",
+        "Name": "Fists",
+        "Description": "Your fists. Saggy flesh and bone",
+        "IsEdible": false,
+        "Value": 0,
+        "Locked": true,
+        "IsArmour": false
+      },
+      {
+        "$id": "151",
+        "Name": "Stale Bread",
+        "Description": "Old stale bread. It doesnt look edible",
+        "IsEdible": true,
+        "Value": 2,
+        "Locked": false,
+        "IsArmour": false
+      },
+      {
+        "$id": "152",
+        "Name": "testSummon",
+        "Description": "A simple test summon",
+        "IsEdible": false,
+        "Value": 0,
+        "Locked": true,
+        "IsArmour": false
+      },
+      {
+        "$id": "153",
+        "Name": "Skin",
+        "Description": "You plain flesh and bones",
+        "IsEdible": false,
+        "Value": 0,
+        "Locked": true,
+        "IsArmour": true
+      },
+      {
+        "$ref": "148"
+      },
+      {
+        "$ref": "149"
+      },
+      {
+        "$ref": "149"
+      }
+    ]
+  },
+  "SpellBook": {
+    "$id": "154"
+  },
+  "EquipedWeapon": {
+    "$ref": "145"
+  },
+  "key": {
+    "$ref": "45"
+  },
+  "level": 1,
+  "Experience": 0,
+  "privLvlXp": 0,
+  "xpNeeded": 150,
+  "XP_INCREASE": 1.75,
+  "HealthChange": 20,
+  "gold": 50,
+  "Armour": {
+    "$ref": "146"
+  },
+  "InvDesc": "",
+  "SpellNames": {
+    "$id": "155",
+    "$values": [
+    ]
+  },
+  "SpellDamages": {
+    "$id": "156",
+    "$values": [
+    ]
+  },
+  "MaxMana": 25,
+  "Mana": 25,
+  "ManaDrains": {
+    "$id": "157",
+    "$values": [
+    ]
+  },
+  "talking": null,
+  "NoteBook": {
+    "$id": "158",
+    "$values": [
+    ]
+  },
+  "IsBlocking": false,
+  "deadCreatures": {
+    "$id": "159",
+    "$values": [
+    ]
+  },
+  "VisitedRooms": {
+    "$id": "160",
+    "$values": [
+      {
+        "$ref": "2"
+      }
+    ]
+  },
+  "CheckpointRoom": {
+    "$ref": "2"
+  },
+  "Summoned": {
+    "$id": "161",
+    "$values": [
+    ]
+  }
+}

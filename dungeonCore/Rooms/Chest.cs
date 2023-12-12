@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
 {
     public class Chest
     {
+        [JsonInclude]
         private bool KeyNeeded;
+        [JsonInclude]
         private List<Item> Contents = new List<Item>();
         public Chest(bool keyNeeded = false) 
         {

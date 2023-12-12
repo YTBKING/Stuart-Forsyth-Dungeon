@@ -3,17 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
 {
     public class WeaponItem : Item
     {
+        [JsonInclude]
         public string Rarity;
+        [JsonInclude]
         private List<string> Rarities = new List<string>() { "Holy", "Demonic", "Frozen", "Blazing", "Common", "Uncommon", "Rare", "Epic", "Legendary" };
+        [JsonInclude]
         private int UpgradeCost;
+        [JsonInclude]
         private WeaponItem FutureStage;
+        [JsonInclude]
         protected int critChance = 1;
+        [JsonInclude]
+        protected int Damage;
         public WeaponItem(string name, string description, int damage, int value, string rarity = "Common", int baseUpgradeCost = 65, bool locked = false) : base(name, description, value, locked)
         {
             Name = name;

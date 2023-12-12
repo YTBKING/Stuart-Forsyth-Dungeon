@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "F7pJ15psRnUyOhSfGejD+q62dZaaaCJb1Y1/LvnENgZSVYbkyOwKpnTs/ZnBP42HXcmN/cAoD83E3SKtQ8Z7jg==",
+  "dgSpecHash": "AHb3svElVPn/NUqpEsfEMX/zrblFuQCsu0WQcCYd35imtyZBlsBcNMCQ8K5vbA9bSCm2846s6RnbHHavF2iASg==",
   "success": true,
-  "projectFilePath": "\\\\esher.ac.uk\\home\\Students\\2023\\232649\\Visual Studio 2022\\My Projects\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
+  "projectFilePath": "E:\\School\\Computer Science\\Code\\Stuart-Forsyth-Dungeon-main\\dungeonCore\\Dungeon.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\232649\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\232649\\.nuget\\packages\\spectre.console\\0.47.0\\spectre.console.0.47.0.nupkg.sha512",
-    "C:\\Users\\232649\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512",
-    "C:\\Users\\232649\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
-    "C:\\Users\\232649\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "C:\\Users\\tomsk\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\spectre.console\\0.47.0\\spectre.console.0.47.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\tomsk\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

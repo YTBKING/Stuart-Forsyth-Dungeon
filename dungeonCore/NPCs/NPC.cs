@@ -1,16 +1,22 @@
-﻿using Spectre.Console;
+﻿using Dungeon;
+using dungeonCore.Game;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
 {
+    
     public class NPC
     {
         #region "Properties"
+        [JsonInclude]
         protected string Name;
+        [JsonInclude]
         protected string Dialogue;
         public List<Item> SellingItems = new List<Item>();
         public List<int> SellingCosts = new List<int>();
@@ -153,7 +159,43 @@ namespace Dungeon
             return true;
 
         }
+        public void ReforgeWeapon(Player player, WeaponItem weapon)
+        {
+            if (weapon.Rarity == "Demonic" || weapon.Rarity == "Holy" || weapon.Rarity == "Frozen" || weapon.Rarity == "Blazing")
+            {
+                bool running = true;
+                int ReforgeCost = 150;
+                string oldRarity = weapon.GetRarity();
+                string reforge = "";
+                while (running)
+                {
+                    reforge = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Which modifier would you like?\n")
+                    .PageSize(4)
+                    .AddChoices(new[] {
+                        "Demonic", 
+                        "Holy", 
+                        "Frozen", 
+                        "Blazing",
+                     }));
+                    if (reforge == weapon.GetTrueRarity())
+                    {
+                        AnsiConsole.MarkupLine("[italic grey]Modifier cannot be the same as before[/]");
+                        continue;
+                    }
+                    break;
+                }
+                string answer = AnsiConsole.Ask<string>($"[italic grey]This will cost [/][italic 178]{ReforgeCost}[/][italic grey] to reforge\nIs that okay (Y/N)[/] ").ToLower();
+                if ( answer == "y" ) 
+                {
+                    weapon.Rarity = reforge;
 
+                    AnsiConsole.MarkupLine($"[italic grey]You have changed from [/]{oldRarity}[italic grey] -> [/]{weapon.GetRarity()}");
+                }
+            }
+            else { AnsiConsole.MarkupLine("[italic grey]This is not a valid weapon[/]"); }
+        }
         public void UpgradeWeapon(Player player, WeaponItem weapon)
         {
             if (weapon.Rarity != "Demonic" && weapon.Rarity != "Holy" && weapon.Rarity != "Frozen" && weapon.Rarity != "Blazing")
@@ -184,6 +226,26 @@ namespace Dungeon
                 Console.ForegroundColor = ConsoleColor.Red;
                 AnsiConsole.MarkupLine("You cannot upgrade [bold darkred]this[/][italic red] weapon here[/]");
                 Console.ForegroundColor = ConsoleColor.DarkGray;
+            }
+        }
+        public void UpgradeSummon(Player player, SummonItem summon)
+        {
+            Console.WriteLine($"This will cost {summon.GetBuffCost()} to upgrade\nIs that okay (Y/N)");
+            string answer = Console.ReadLine().ToUpper();
+            if (answer == "Y")
+            {
+                if (player.gold >= summon.GetBuffCost())
+                {
+                    summon.AdjustLvl(1);
+                    player.gold -= summon.GetBuffCost();
+                    Console.WriteLine("You upgraded your " + summon.GetName());
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("You do not have enough gold for this");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
             }
         }
         #endregion

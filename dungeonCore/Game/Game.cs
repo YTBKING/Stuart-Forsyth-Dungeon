@@ -3,11 +3,16 @@ using Dungeon.Rooms;
 using dungeonCore.Game;
 using Spectre.Console;
 using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -17,6 +22,7 @@ namespace Dungeon
         private const int STARTING_HEALTH = 100;
         public void PlayGame()
         {
+            var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = false };
             #region "Game Initalising"
             string command = "";
             bool gameOver = false;
@@ -25,7 +31,7 @@ namespace Dungeon
             #region "Room Creation"
             // initialising the game
 
-            
+
             Room startRoom = new Room("You are in the starting cave.");
             ChallengeRoom graveyard = new ChallengeRoom("You can feel the souls of the fallen floating around the room");
             Room lavaRoom = new Room("You are in a dark cave with a glowing river of lava.", true);
@@ -157,11 +163,17 @@ namespace Dungeon
 
             #region "Spell Books"
             SpellItem frostBolt = new SpellItem("Frostbolt", "A spell book containing FrostBolt. Shoot a bolt of ice at the target", 50, 15, 200);
-            SpellItem engulf = new SpellItem("Engulf", "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant", 50, 15, 2);
+            SpellItem engulf = new SpellItem("Engulf", "A spell book containing Engulf. This spell will engulf the target in a shadow of darkness, causing insanity on even the most mentally resilliant", 50, 15, 60);
             SpellItem lightning = new SpellItem("Lightning", "A spell book containing Lightning. Shoot lightning at your enemy", 80, 40, 250);
             SpellItem flameSpear = new SpellItem("FlameSpear", "A spell book containing FlameSpear. Throw a spear of fire towards tour enemy", 30, 10, 50);
 
             #endregion
+
+            #region "Summons"
+            SummonItem testSummon = new SummonItem("testSummon", "A simple test summon", 10, 5, 10);
+            #endregion
+
+
 
             #endregion
 
@@ -171,6 +183,13 @@ namespace Dungeon
 
             SellerNPC testSeller = new SellerNPC("Saul");
             testSeller.AddVendorItems(woodenSword, 35);
+
+            ReforgeNPC testReforger = new ReforgeNPC("Damian");
+            string fileName = "ReforgerSave.json";
+            string jsonString = JsonSerializer.Serialize(testReforger, options);
+            File.WriteAllText(fileName, jsonString);
+            startRoom.AddNPC(testReforger);
+
 
             //startRoom.AddNPC(testSmith);
             startRoom.AddNPC(testSeller);
@@ -192,14 +211,16 @@ namespace Dungeon
             #region "Creatures
             #region "Bosses"
             Dragon dragon = new Dragon(350, 10, 5, 500);
-            BossCreature kingGarlock = new BossCreature("garlock", 30, 5, 100, 2, 50, "Holy");
+            BossCreature kingGarlock = new BossCreature("garlock", 60, 5, 100, 4, 50, "Holy");
             BossCreature testDummy = new BossCreature("test", 1, 150, 0, 0, 500);
             Celestial celestialKing = new Celestial("celestial", 300, 100, 30, 20000, 2000);
-            BossCreature vengefullSpirit = new BossCreature("vengefull spirit", 35, 80, 3, 3, 62, "Demonic");
+            BossCreature vengefullSpirit = new BossCreature("vengefull spirit", 35, 80, 12, 4, 62, "Demonic");
+
+            vengefullSpirit.isAgressive();
 
             #endregion
             #region "Regular"
-            Creature orc = new Creature("orc", 20, 50, 15, 1, 10);
+            Creature orc = new Creature("orc", 20, 50, 15, 5, 10);
             orc.isAgressive();
             #endregion
             #region "Static Creatures"
@@ -313,139 +334,163 @@ namespace Dungeon
             #endregion
             #endregion
 
-            #region "Class Setup"
-            string name = AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
-            
-            
-            
-            string selection = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-            .Title("Which class would you like to play as?")
-            .PageSize(7)
-            .AddChoices(new[] {
-                "[bold darkred_1]HellSpawn[/]", "[bold grey69]Knight[/]", "[bold 153]Mage[/]", "[bold 11]Paladin[/]",
-                "[bold 117]Frostbitten[/]", "[bold red3]Spitfire[/]", "[bold 138]Wretch[/]",
-             }));
-
+            #region "Game Set-up"
 
             Player pc = new Player(100, fist, skin, masterKey);
-            bool unassigned = true;
-            while (unassigned)
+            string gameState = AnsiConsole.Prompt(
+new SelectionPrompt<string>()
+.PageSize(3)
+.AddChoices(new[] {
+                "New Game", "Load Game",
+}));
+            switch (gameState)
             {
-                switch (selection)
-                {
-                    case "[bold darkred_1]HellSpawn[/]":
-                        pc = new Player(120, hellsDagger, hellsSet, masterKey);
-                        pc.SetStrength(15);
-                        pc.SetMana(25);
-                        pc.SetAgility(8);
-                        pc.AddItem(hellsDagger);
-                        pc.AddItem(hellsSet);
-                        pc.AddItem(flameSpear);
-                        unassigned = false;
-                        break;
-                    case "[bold grey69]Knight[/]":
-                        pc = new Player(150, sword, knightsSet, masterKey);
-                        pc.SetStrength(17);
-                        pc.SetMana(70);
-                        pc.SetAgility(2);
-                        pc.AddItem(knightsSet);
-                        pc.AddItem(sword);
-                        unassigned = false;
-                        break;
-                    case "[bold 153]Mage[/]":
-                        pc = new Player(75, sacredStaff, magesRobes, masterKey);
-                        pc.SetStrength(0);
-                        pc.SetMana(200);
-                        pc.SetAgility(4);
-                        pc.AddItem(sacredStaff);
-                        pc.AddItem(magesRobes);
-                        pc.LearnSpell(frostBolt);
-                        pc.LearnSpell(lightning);
-                        unassigned = false;
-                        break;
-                    case "[bold 11]Paladin[/]":
-                        pc = new Player(110, hammer, paladingear, masterKey);
-                        pc.SetStrength(5);
-                        pc.SetAgility(0);
-                        pc.SetMana(100);
-                        pc.AddItem(paladingear);
-                        pc.AddItem(hammer);
-                        unassigned = false;
-                        break;
-                    case "[bold 117]Frostbitten[/]":
-                        pc = new Player(100, frostbiteSword, frostbiteSet, masterKey);
-                        pc.SetStrength(6);
-                        pc.SetAgility(4);
-                        pc.SetMana(20);
-                        pc.AddItem(frostbiteSet);
-                        pc.AddItem(frostbiteSword);
-                        unassigned = false;
-                        break;
-                    case "[bold red3]Spitfire[/]":
-                        pc = new Player(100, blazingSword, spitfireSet, masterKey);
-                        pc.SetStrength(13);
-                        pc.SetMana(75);
-                        pc.SetAgility(3);
-                        pc.AddItem(spitfireSet);
-                        pc.AddItem(blazingSword);
-                        unassigned = false;
-                        break;
-                    case "[bold 138]Wretch[/]":
-                        pc = new Player(100, fist, skin, masterKey);
-                        pc.SetStrength(0);
-                        pc.SetMana(50);
-                        pc.SetAgility(0);
-                        unassigned = false;
-                        break;
-                    /*case "god":
-                        pc = new Player(100, godSword, godsSet, doorKey);
-                        pc.SetStrength(1000);
-                        pc.SetMana(1000);
-                        pc.SetAgility(1000);
-                        pc.AddItem(godSword);
-                        pc.AddItem(godsSet);
-                        pc.AddItem(doorKey);
-                        unassigned = false;
-                        break; */
+                case "New Game":
+                    #region "Class Setup"
+                    string name = AnsiConsole.Ask<string>("\n\nWake up adventurer. You seem to have drifted asleep.\n[italic blue]What is your name?[/]\n> ");
 
-                }
+
+
+                    string selection = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("Which class would you like to play as?")
+                    .PageSize(7)
+                    .AddChoices(new[] {
+                "[bold darkred_1]HellSpawn[/]", "[bold grey69]Knight[/]", "[bold 153]Mage[/]", "[bold 11]Paladin[/]",
+                "[bold 117]Frostbitten[/]", "[bold red3]Spitfire[/]", "[bold 138]Wretch[/]",
+                     }));
+
+                    bool unassigned = true;
+                    while (unassigned)
+                    {
+                        switch (selection)
+                        {
+                            case "[bold darkred_1]HellSpawn[/]":
+                                pc = new Player(120, hellsDagger, hellsSet, masterKey);
+                                pc.SetStrength(15);
+                                pc.SetMana(25);
+                                pc.SetAgility(8);
+                                pc.AddItem(hellsDagger);
+                                pc.AddItem(hellsSet);
+                                pc.AddItem(flameSpear);
+                                unassigned = false;
+                                break;
+                            case "[bold grey69]Knight[/]":
+                                pc = new Player(150, sword, knightsSet, masterKey);
+                                pc.SetStrength(17);
+                                pc.SetMana(70);
+                                pc.SetAgility(2);
+                                pc.AddItem(knightsSet);
+                                pc.AddItem(sword);
+                                unassigned = false;
+                                break;
+                            case "[bold 153]Mage[/]":
+                                pc = new Player(75, sacredStaff, magesRobes, masterKey);
+                                pc.SetStrength(0);
+                                pc.SetMana(200);
+                                pc.SetAgility(4);
+                                pc.AddItem(sacredStaff);
+                                pc.AddItem(magesRobes);
+                                pc.LearnSpell(frostBolt);
+                                pc.LearnSpell(lightning);
+                                unassigned = false;
+                                break;
+                            case "[bold 11]Paladin[/]":
+                                pc = new Player(110, hammer, paladingear, masterKey);
+                                pc.SetStrength(5);
+                                pc.SetAgility(0);
+                                pc.SetMana(100);
+                                pc.AddItem(paladingear);
+                                pc.AddItem(hammer);
+                                unassigned = false;
+                                break;
+                            case "[bold 117]Frostbitten[/]":
+                                pc = new Player(100, frostbiteSword, frostbiteSet, masterKey);
+                                pc.SetStrength(6);
+                                pc.SetAgility(4);
+                                pc.SetMana(20);
+                                pc.AddItem(frostbiteSet);
+                                pc.AddItem(frostbiteSword);
+                                unassigned = false;
+                                break;
+                            case "[bold red3]Spitfire[/]":
+                                pc = new Player(100, blazingSword, spitfireSet, masterKey);
+                                pc.SetStrength(13);
+                                pc.SetMana(75);
+                                pc.SetAgility(3);
+                                pc.AddItem(spitfireSet);
+                                pc.AddItem(blazingSword);
+                                unassigned = false;
+                                break;
+                            case "[bold 138]Wretch[/]":
+                                pc = new Player(100, fist, skin, masterKey);
+                                pc.SetStrength(0);
+                                pc.SetMana(50);
+                                pc.SetAgility(0);
+                                unassigned = false;
+                                break;
+                                /*case "god":
+                                    pc = new Player(100, godSword, godsSet, doorKey);
+                                    pc.SetStrength(1000);
+                                    pc.SetMana(1000);
+                                    pc.SetAgility(1000);
+                                    pc.AddItem(godSword);
+                                    pc.AddItem(godsSet);
+                                    pc.AddItem(doorKey);
+                                    unassigned = false;
+                                    break; */
+
+                        }
+                    }
+                    pc.SetClass(selection);
+                    #endregion
+
+                    #region "Player Set Up"
+                    pc.SetLocation(startRoom);
+                    pc.SetCheckpoint(startRoom);
+                    pc.SetName(name);
+                    pc.AddItem(apple);
+                    pc.AddItem(cheese);
+                    pc.AddItem(stoneApple);
+                    pc.AddItem(fist);
+                    pc.AddItem(staleBread);
+                    pc.AddItem(testSummon);
+                    pc.AddItem(skin);
+                    pc.AddItem(apple);
+                    pc.AddItem(stoneApple);
+                    pc.AddItem(stoneApple);
+
+
+                    #endregion
+                    break;
+                case "Load Game":
+                    options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = false };
+                    string playerSave = File.ReadAllText("Player.json");
+                    pc = JsonSerializer.Deserialize<Player>(playerSave, options);
+
+                    break;
             }
-            pc.SetClass(selection);
-            #endregion
-
-            #region "Player Set Up"
-            pc.SetLocation(startRoom);
-            pc.SetName(name);
-            pc.AddItem(apple);
-            pc.AddItem(cheese);
-            pc.AddItem(stoneApple);
-            pc.AddItem(fist);
-            pc.AddItem(staleBread);
-            pc.AddItem(skin);
-            pc.AddItem(apple);
-            pc.AddItem(stoneApple);
-            pc.AddItem(stoneApple);
-
             #endregion
 
             #region "Game"
-            while (!gameOver)
+            bool playing = true;
+            while (playing)
             {
+
                 if (pc.IsDead())
                 {
-                    gameOver = true;
-                    break;
+                    OnDeath(pc);
+                    continue;
                 }
                 foreach (Creature creature in pc.GetLocation().GetCreatures())
                 {
                     if (creature.GetAggression())
                     {
-                        if (creature.GetSpeed() > pc.GetAgility()) 
+                        if (creature.GetSpeed() > pc.GetAgility())
                         {
                             if (!pc.CheckBlocking())
                             {
-                                int damage = creature.GetAttackDamage(pc.GetArmour()); 
+                                int damage = creature.GetAttackDamage(pc.GetArmour());
                                 pc.RemoveHealth(damage);
                                 AnsiConsole.MarkupLine($"[italic grey]The {creature.GetName()} attacked you suddenly, dealing[/] [italic red]{damage}[/][italic grey] damage[/]");
 
@@ -458,8 +503,8 @@ namespace Dungeon
                 pc.ChangeBlocking(false);
                 if (pc.IsDead())
                 {
-                    gameOver = true;
-                    break;
+                    OnDeath(pc); 
+                    continue;
                 }
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -471,9 +516,13 @@ namespace Dungeon
                 Console.WriteLine("\x1B[3m");
                 gameOver = Command.Execute(command.Split(' ').ToList(), pc);
                 Console.WriteLine("\x1B[0m");
-            }
 
-            // finish off nicely and close down
+            }
+            #endregion
+        }
+
+        public static void OnDeath(Player pc)
+        {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(@"
                                                                              
@@ -485,12 +534,15 @@ namespace Dungeon
      ██    ▀██▄    ▄██▀ ██▄     ▄█       ██    ▄██▀ ██   ██     ▄█ ██    ▄██▀
    ▄████▄    ▀▀████▀▀    ▀██████▀▀     ▄████████▀ ▄████▄██████████████████▀  
                                                                             
-                                                                            
-
 ");
+            pc.SetHealth(pc.MaxHealth / 2);
+            pc.SetXP(pc.GetPrevXPNeeded());
 
-            Console.ReadLine();
-            #endregion
+            Console.WriteLine("Press Any Key To Respawn");
+            Console.ReadKey();
+            Console.WriteLine("Your soul condenses back into human form");
+
+            pc.SetLocation(pc.GetCheckpoint());
         }
     }
 }

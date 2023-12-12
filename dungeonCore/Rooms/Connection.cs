@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -10,8 +11,11 @@ namespace Dungeon
     public class Connection
     {
         #region "Properties"
+        [JsonInclude]
         private Room RoomFrom;
+        [JsonInclude]
         private Room RoomTo;
+        [JsonInclude]
         private string Direction;
         public bool KeyNeeded;
         #endregion
@@ -64,14 +68,24 @@ namespace Dungeon
             {
                 if ((KeyNeeded && player.ObtainedKey()) || !KeyNeeded)
                 {
+                    if (player.GetVisited().Contains(RoomTo))
+                    {
+                        KeyNeeded = false;
+                    }
                     if (KeyNeeded) 
                     { 
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Would you like to use the key? ");
                         string answer = Console.ReadLine();
-                        if (answer.ToUpper() == "no") 
+                        if (answer.ToLower() == "no" || answer.ToLower() == "n") 
                         { 
                             wantGo = false;
+
+                        }
+                        else
+                        {
+                            KeyNeeded = false;
+                            player.RemoveItem(key, 1);
                         }
                     }
                     if (wantGo)
@@ -84,20 +98,16 @@ namespace Dungeon
                                 {
                                     RoomTo.AddCreature(creature);
                                 }
-
                             }
-
+                        }
+                        if (RoomTo.CheckCheckpoint())
+                        {
+                            player.SetCheckpoint(RoomTo);
                         }
                         player.SetLocation(RoomTo);
 
-
                     }
 
-                    if (KeyNeeded)
-                    { 
-                        KeyNeeded = false;
-                        player.RemoveItem(key, 1);
-                    }
 
                     return true;
                 }

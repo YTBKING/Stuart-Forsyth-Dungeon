@@ -1,4 +1,5 @@
 ﻿using Dungeon;
+using Dungeon.Creatures;
 using Spectre.Console;
 using System;
 using System.Collections;
@@ -9,7 +10,12 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
+using System.IO;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Dungeon.Rooms;
 
 namespace dungeonCore.Game
 {
@@ -20,6 +26,21 @@ namespace dungeonCore.Game
     }
 
     // look
+
+
+    public class Save : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            File.WriteAllText("Player.json", String.Empty);
+            var options = new JsonSerializerOptions { IncludeFields = true, ReferenceHandler = ReferenceHandler.Preserve  };
+            string playerFile = "Player.json";
+            string playerJson = JsonSerializer.Serialize(player, options);
+            File.WriteAllText(playerFile, playerJson);
+            Console.WriteLine("Saved Game");
+        }
+    }
     public class Look : IGameAction
     {
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
@@ -40,6 +61,66 @@ namespace dungeonCore.Game
         public static void DoAction(List<string> instructions, Player player)
         {
             AnsiConsole.MarkupLine($"You have [italic red]{player.GetHealth()}[/][italic grey] health.[/]");
+        }
+    }
+
+    //Arise
+    public class Arise : IGameAction
+    {
+        
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            List<string> undeadPrefix = new List<string>(){ "Undead", "Skeletal", "Rotten", "Boneridden", "Beheaded" };
+            
+            string instructionsToDo = "";
+            for (int i = 1; i < instructions.Count; i++)
+            {
+                instructionsToDo += instructions[i];
+                if (i != instructions.Count - 1)
+                {
+                    instructionsToDo += " ";
+                }
+            }
+            var found1 = player.GetLocation().GetDeadCreatures().Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
+            if (found1 != null)
+            {
+                if (found1 is not BossCreature)
+                {
+                    if (player.GetLocation() is not ChallengeRoom)
+                    {
+                        Random rand = new Random();
+                        string namePrefix = undeadPrefix[rand.Next(0, undeadPrefix.Count)];
+                        string summonName = $"{namePrefix} {found1.GetName()}";
+                        SummonItem Summon = new SummonItem(summonName, "", found1.GetMaxHealth(), found1.GetPowerLvl(), found1.GetPowerLvl() * 5);
+
+
+                        if (player.GetMana() > Summon.GetManaDrain())
+                        {
+                            player.AddSummon(Summon.GetSummon());
+                            player.GetLocation().RemoveDeadCreatures(found1);
+                            player.Mana -= Summon.GetManaDrain();
+                            Console.WriteLine("You have summoned " + summonName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("You do not have enough mana to summon this");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("The souls of the dead have already ascended, and are trapped within this room");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This monsters spirit is too strong, and so cannot be brought fourth");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Could not find this creature");
+            }
         }
     }
 
@@ -234,7 +315,7 @@ namespace dungeonCore.Game
     public class Attack : IGameAction
     {
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
-        private static Random random = new Random();
+
         public static void DoAction(List<string> instructions, Player player)
         {
             string instructionsToDo = "";
@@ -274,13 +355,24 @@ namespace dungeonCore.Game
                     int damage = player.EquipedWeapon.GetDamage() + player.Strength;
                     if (player.Agility >= creature.GetSpeed())
                     {
-
-                        dead = creature.TakeDamage(damage, player.EquipedWeapon);
-                        Console.WriteLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                        foreach(SummonCreature summon in player.GetSummons())
+                        {
+                            dead = creature.TakeDamage(summon.GetDamage());
+                            Console.WriteLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                            if (dead)
+                            {
+                                break;
+                            }
+                        }
+                        if (!dead)
+                        {
+                            dead = creature.TakeDamage(damage, player.EquipedWeapon);
+                            Console.WriteLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                        }
 
                         if (dead)
                         {
-                            Console.WriteLine($"Your attack killed the {creature.GetName()}");
+                            Console.WriteLine($"The attack killed the {creature.GetName()}");
                             player.AdjustExperience(creature.GetXp());
                             foreach (Item drops in creature.GetDrops())
                             {
@@ -307,7 +399,6 @@ namespace dungeonCore.Game
                             }
                             if (player.IsDead())
                             {
-                                Console.WriteLine("You die.");
                                 return;
                             }
 
@@ -317,26 +408,40 @@ namespace dungeonCore.Game
                     }
                     else if (creature.GetSpeed() > player.Agility)
                     {
-                        int damageTaken = creature.GetAttackDamage(player.Armour);
-                        if (damageTaken < 0)
+                        foreach (SummonCreature summon in player.GetSummons())
                         {
-                            damageTaken = 0;
+                            dead = creature.TakeDamage(summon.GetDamage());
+                            Console.WriteLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                            if (dead)
+                            {
+                                break;
+                            }
                         }
-                        player.Health -= damageTaken;
+                        if (!dead)
+                        {
+                            int damageTaken = creature.GetAttackDamage(player.Armour);
+                            if (damageTaken < 0)
+                            {
+                                damageTaken = 0;
+                            }
+                            player.Health -= damageTaken;
 
-                        AnsiConsole.MarkupLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
-                        if (player.DoesDodge())
-                        {
-                            Console.WriteLine($"You dodged the attack");
-                        }
+                            AnsiConsole.MarkupLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
+                            if (player.DoesDodge())
+                            {
+                                Console.WriteLine($"You dodged the attack");
+                            }
 
-                        if (player.Health <= 0)
-                        {
-                            Console.WriteLine("You die.");
-                            return;
+                            if (player.Health <= 0)
+                            {
+                                Console.WriteLine("You die.");
+                                return;
+                            }
+
+
+                            dead = creature.TakeDamage(damage, player.EquipedWeapon);
+                            AnsiConsole.MarkupLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
                         }
-                        dead = creature.TakeDamage(damage, player.EquipedWeapon);
-                        AnsiConsole.MarkupLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
 
                         if (dead)
                         {
@@ -380,6 +485,7 @@ namespace dungeonCore.Game
             else
             {
                 string spell = instructions[1];
+                spell = Regex.Replace(spell, @"(^\w)|(\s\w)", m => m.Value.ToUpper());
                 string target = "";
                 for (int i = 2; i < instructions.Count(); i++)
                 {
@@ -408,6 +514,15 @@ namespace dungeonCore.Game
                     {
                         if (creature.GetName().ToLower() == target.ToLower())
                         {
+                            foreach (SummonCreature summon in player.GetSummons())
+                            {
+                                dead = creature.TakeDamage(summon.GetDamage());
+                                Console.WriteLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                                if (dead)
+                                {
+                                    break;
+                                }
+                            }
                             if (drain <= player.Mana)
                             {
                                 if (player.EquipedWeapon is StaffWeapon)
@@ -418,11 +533,10 @@ namespace dungeonCore.Game
                                 else
                                 {
                                     dead = creature.TakeSpellDamage(spell, player.SpellBook[spell]);
+
                                 }
                                 player.Mana -= drain;
-                                break;
                             }
-
                             if (dead)
                             {
                                 Console.WriteLine($"Your {spell} killed the {creature.GetName()}");
@@ -434,7 +548,7 @@ namespace dungeonCore.Game
                                     player.GetLocation().AddItem(drops);
                                 }
                                 player.gold += creature.GetGold();
-                                Console.WriteLine($"The {creature.GetName()} dropped [italic 178]{creature.GetGold()}g[/]");
+                                AnsiConsole.MarkupLine($"The {creature.GetName()} dropped [italic 178]{creature.GetGold()}g[/]");
                             }
                             else
                             {
@@ -462,6 +576,7 @@ namespace dungeonCore.Game
                 }
             }
         }
+
     }
 
     // examine
@@ -719,6 +834,7 @@ namespace dungeonCore.Game
         public static void DoAction(List<string> instructions, Player player)
         {
             Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(player.GetName());
             Console.WriteLine("Level " + player.GetLevel());
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine($"Max Health: {player.MaxHealth}\nMax Mana: {player.MaxMana}\nStrength: {player.Strength}\nAgility: {player.Agility}");
@@ -1025,19 +1141,27 @@ namespace dungeonCore.Game
                     {
                         try
                         {
-                            player.talking.UpgradeWeapon(player, (WeaponItem)found);
+                            if (found is WeaponItem)
+                            {
+                                player.talking.UpgradeWeapon(player, (WeaponItem)found);
+                            }
+                            else if (found is SummonItem)
+                            {
+                                player.talking.UpgradeSummon(player, (SummonItem)found);
+                            }
+
                         }
                         catch (InvalidCastException)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("This is not a weapon");
+                            Console.WriteLine("This is not something that can be upgraded here");
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                         }
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("You cannot upgrade weapons here");
+                        Console.WriteLine("You cannot upgrade items here");
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     }
 
@@ -1050,7 +1174,74 @@ namespace dungeonCore.Game
                 }
 
             }
-            else { Console.WriteLine("You cannot upgrade weapons here"); }
+            else { Console.WriteLine("You cannot upgrade items here"); }
+        }
+    }
+
+    public class Reforge : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            int num = 1;
+            if (instructions[1].ToLower().Contains("demonic") || instructions[1].ToLower().Contains("frozen") || instructions[1].ToLower().Contains("blazing") || instructions[1].ToLower().Contains("holy") || instructions[1].ToLower().Contains("common") || instructions[1].ToLower().Contains("uncommon") || instructions[1].ToLower().Contains("rare") || instructions[1].ToLower().Contains("epic") || instructions[1].ToLower().Contains("legendary"))
+            {
+                num = 2;
+            }
+            string instructionsToDo = "";
+            for (int i = num; i < instructions.Count; i++)
+            {
+                instructionsToDo += instructions[i];
+                if (i != instructions.Count - 1)
+                {
+                    instructionsToDo += " ";
+                }
+            }
+            if (player.GetLocation().HasNPC())
+            {
+                if (player.talking == null)
+                {
+                    player.GetRecentNPC();
+                }
+
+                var found = player.Inventory.Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
+                if (found != null)
+                {
+                    if (player.talking is ReforgeNPC)
+                    {
+                        try
+                        {
+                            if (found is WeaponItem)
+                            {
+                                player.talking.ReforgeWeapon(player, (WeaponItem)found);
+                            }
+
+
+                        }
+                        catch (InvalidCastException)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("This is not something that can be reforged");
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("You cannot reforge items here");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                    }
+
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Sorry could not find {instructionsToDo}.");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
+
+            }
+            else { Console.WriteLine("You cannot reforge items here"); }
         }
     }
 
@@ -1060,7 +1251,7 @@ namespace dungeonCore.Game
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
         public static void DoAction(List<string> instructions, Player player)
         {
-            AnsiConsole.Markup($"You have [italic 27]{player.Mana} mana [/] left");
+            AnsiConsole.Markup($"[italic grey]You have [/][italic 27]{player.Mana} mana[/][italic grey] left[/]");
         }
     }
 
@@ -1126,13 +1317,120 @@ namespace dungeonCore.Game
         }
     }
 
+    // sort
+    public class Sort : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            bubbleSort(player.Inventory);
+            AnsiConsole.MarkupLine("You have sorted your inventory");
+        }
+
+        public static List<Item> bubbleSort(List<Item> list)
+        {
+            int swapCounter = -1;
+            Item tempValue;
+
+            while (swapCounter != 0)
+            {
+                swapCounter = 0;
+                for (int i = 0; i < list.Count - 1; i++)
+                {
+                    if (list[i + 1] is WeaponItem && list[i] is WeaponItem)
+                    {
+                        WeaponItem weapon = (WeaponItem)list[i];
+                        WeaponItem weapon2 = (WeaponItem)list[i + 1];
+                        if (string.Compare(weapon.GetTrueRarity(), weapon2.GetTrueRarity()) == 1)
+                        {
+                            tempValue = list[i];
+                            list[i] = list[i + 1];
+                            list[i + 1] = tempValue;
+                            swapCounter++;
+                        }
+                        if (string.Compare(weapon.GetTrueRarity(), weapon2.GetTrueRarity()) == 0)
+                        {
+                            if (string.Compare(weapon.GetName(), weapon2.GetName()) == 1)
+                            {
+                                tempValue = list[i];
+                                list[i] = list[i + 1];
+                                list[i + 1] = tempValue;
+                                swapCounter++;
+                            }
+                        }
+                    }
+                    else if (string.Compare(list[i].GetName(), list[i + 1].GetName()) == 1)
+                    {
+                        tempValue = list[i];
+                        list[i] = list[i + 1];
+                        list[i + 1] = tempValue;
+                        swapCounter++;
+                    }
+                }
+            }
+            return list;
+        }
+    }
+
+    // Summon
+    public class Summon : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            string instructionsToDo = "";
+            for (int i = 1; i < instructions.Count; i++)
+            {
+                instructionsToDo += instructions[i];
+                if (i != instructions.Count - 1)
+                {
+                    instructionsToDo += " ";
+                }
+            }
+            var found1 = player.Inventory.Find(item => item.GetName().ToLower() == instructionsToDo.ToLower());
+            if (found1 != null && found1 is SummonItem)
+            {
+
+                SummonItem Summon = (SummonItem)found1;
+                if (player.GetMana() > Summon.GetManaDrain())
+                {
+                    player.AddSummon(Summon.GetSummon());
+                    player.Mana -= Summon.GetManaDrain();
+                    Console.WriteLine("You have summoned " + Summon.GetSummon().GetName());
+                }
+                else
+                {
+                    Console.WriteLine("You do not have enough mana to summon this");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Could not find this creature");
+            }
+        }
+    }
+
     // quit
     public class Quit : IGameAction
     {
         public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
         public static void DoAction(List<string> instructions, Player player)
         {
-            player.SetHealth(0);
+            Console.WriteLine(@"   
+
+  ▄▄█▀▀▀█▄█      ██     ▀████▄     ▄███▀███▀▀▀███      ▄▄█▀▀██▄ ▀████▀   ▀███▀███▀▀▀███▀███▀▀▀██▄  
+▄██▀     ▀█     ▄██▄      ████    ████   ██    ▀█    ▄██▀    ▀██▄ ▀██     ▄█   ██    ▀█  ██   ▀██▄ 
+██▀       ▀    ▄█▀██▄     █ ██   ▄█ ██   ██   █      ██▀      ▀██  ██▄   ▄█    ██   █    ██   ▄██  
+██            ▄█  ▀██     █  ██  █▀ ██   ██████      ██        ██   ██▄  █▀    ██████    ███████   
+██▄    ▀████  ████████    █  ██▄█▀  ██   ██   █  ▄   ██▄      ▄██   ▀██ █▀     ██   █  ▄ ██  ██▄   
+▀██▄     ██  █▀      ██   █  ▀██▀   ██   ██     ▄█   ▀██▄    ▄██▀    ▄██▄      ██     ▄█ ██   ▀██▄ 
+  ▀▀███████▄███▄   ▄████▄███▄ ▀▀  ▄████▄██████████     ▀▀████▀▀       ██     ▄██████████████▄ ▄███▄
+                                                                                                   
+                                                                                                   
+");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
     }
 
@@ -1187,6 +1485,11 @@ namespace dungeonCore.Game
                     {"notes", Notes.Instance },
                     {"block", Block.Instance},
                     {"mew", Block.Instance},
+                    {"sort", Sort.Instance},
+                    {"summon", Summon.Instance },
+                    {"reforge", Reforge.Instance},
+                    {"save", Save.Instance},
+                    {"arise", Arise.Instance},
 
                 };
 
@@ -1203,5 +1506,7 @@ namespace dungeonCore.Game
 
             return player.IsDead();
         }
+
+
     }
 }

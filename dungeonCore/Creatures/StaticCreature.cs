@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
 {
     public class StaticCreature
     {
-        string Name;
-        int Health;
-        Connection HiddenConnection;
+        [JsonInclude]
+        private string Name;
+        [JsonInclude]
+        private int Health;
+        public Connection HiddenConnection;
         public StaticCreature(string name, int health, Connection hiddenConnection)
         {
             Name = name;

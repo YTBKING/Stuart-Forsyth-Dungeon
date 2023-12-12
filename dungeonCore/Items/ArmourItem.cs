@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -9,7 +10,7 @@ namespace Dungeon
     public class ArmourItem : Item
     {
         #region "Properties"
-        int Defence;
+        public int Defence;
         #endregion
 
         public ArmourItem(string name, string description, int defence, int value, bool locked = false) : base(name, description, value, locked) 

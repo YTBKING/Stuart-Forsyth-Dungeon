@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
@@ -9,21 +10,32 @@ namespace Dungeon
     public class Creature
     {
         #region "Properties"
+        [JsonInclude]
         protected string Name;
+        [JsonInclude]
         protected int Health;
+        [JsonInclude]
+        protected int MaxHealth;
+        [JsonInclude]
         protected Random random;
+        [JsonInclude]
         protected List<Item> Drops = new List<Item>();
         public double XP;
+        [JsonInclude]
         protected int PowerLvl;
+        [JsonInclude]
         protected int GoldGiven;
+        [JsonInclude]
         protected int Speed;
         public int TrueDamage;
+        [JsonInclude]
         protected bool IsAgressive = false;
         #endregion
 
         public Creature(string name, int health, double xp, int gold, int speed = 1, int powerLvl = 0)
         {
             Name = name;
+            MaxHealth = health;
             Health = health;
             random = new Random();
             GoldGiven = gold;
@@ -65,6 +77,14 @@ namespace Dungeon
         public int GetSpeed()
         {
             return Speed;
+        }
+        public int GetPowerLvl()
+        {
+            return PowerLvl;
+        }
+        public int GetMaxHealth()
+        {
+            return MaxHealth;
         }
         #endregion
 

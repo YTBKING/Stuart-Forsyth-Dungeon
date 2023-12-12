@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dungeon
 {
     class BossCreature : Creature
     {
+        [JsonInclude]
         protected string CreatureType;
         public BossCreature(string name, int health, double xp, int speed, int powerLvl, int gold, string creatureType = "Normal") : base(name, health, xp, gold, speed, powerLvl) 
         {
