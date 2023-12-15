@@ -339,7 +339,7 @@ namespace dungeonCore.Game
                         bool dead = stat.TakeDamage(damage);
                         if (dead)
                         {
-                            Console.WriteLine($"Your attack destroyed the {stat.GetName()}");
+                            AnsiConsole.MarkupLine($"Your attack destroyed the {stat.GetName()}");
                             player.GetLocation().AddConnection(stat.GetHiddens());
                             player.GetLocation().RemoveStatic(stat);
                             break;
@@ -358,7 +358,7 @@ namespace dungeonCore.Game
                         foreach(SummonCreature summon in player.GetSummons())
                         {
                             dead = creature.TakeDamage(summon.GetDamage());
-                            Console.WriteLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                            AnsiConsole.MarkupLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
                             if (dead)
                             {
                                 break;
@@ -367,12 +367,12 @@ namespace dungeonCore.Game
                         if (!dead)
                         {
                             dead = creature.TakeDamage(damage, player.EquipedWeapon);
-                            Console.WriteLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                            AnsiConsole.MarkupLine($"Your attack caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
                         }
 
                         if (dead)
                         {
-                            Console.WriteLine($"The attack killed the {creature.GetName()}");
+                            AnsiConsole.MarkupLine($"The attack killed the {creature.GetName()}");
                             player.AdjustExperience(creature.GetXp());
                             foreach (Item drops in creature.GetDrops())
                             {
@@ -385,7 +385,7 @@ namespace dungeonCore.Game
                         }
                         else
                         {
-                            Console.WriteLine($"The {creature.GetName()} has {creature.GetHealth()} health left");
+                            AnsiConsole.MarkupLine($"The {creature.GetName()} has {creature.GetHealth()} health left");
                             int damageTaken = creature.GetAttackDamage(player.Armour);
                             if (player.DoesDodge())
                             {
@@ -394,7 +394,7 @@ namespace dungeonCore.Game
                             else
                             {
                                 if (damageTaken < 0) { damageTaken = 0; }
-                                Console.WriteLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
+                                AnsiConsole.MarkupLine($"{creature.GetName()} attacks you and causes {damageTaken} damage.");
                                 player.Health -= damageTaken;
                             }
                             if (player.IsDead())
@@ -517,7 +517,7 @@ namespace dungeonCore.Game
                             foreach (SummonCreature summon in player.GetSummons())
                             {
                                 dead = creature.TakeDamage(summon.GetDamage());
-                                Console.WriteLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
+                                AnsiConsole.MarkupLine($"Your {summon.GetName()} caused the {creature.GetName()} to lose {creature.TrueDamage} health.");
                                 if (dead)
                                 {
                                     break;
@@ -554,7 +554,7 @@ namespace dungeonCore.Game
                             {
                                 player.Health -= creature.GetAttackDamage(player.Armour);
                                 AnsiConsole.MarkupLine($"You dealt {player.SpellBook[spell]} to the [italic red]{creature.GetName()}[/]");
-                                Console.WriteLine($"The [italic red]{creature.GetHealth()}[/][italic grey] has {creature.GetHealth()} health left[/]");
+                                AnsiConsole.MarkupLine($"The [italic red]{creature.GetHealth()}[/][italic grey] has {creature.GetHealth()} health left[/]");
                                 if (player.IsDead())
                                 {
                                     Console.WriteLine("You die.");
@@ -1411,6 +1411,22 @@ namespace dungeonCore.Game
         }
     }
 
+    public class Help : IGameAction
+    {
+        public static Action<List<string>, Player> Instance = new Action<List<string>, Player>(DoAction);
+        public static void DoAction(List<string> instructions, Player player)
+        {
+            foreach (var Key in Command.GetActions().Keys)
+            {
+                if (Key.Length > 1)
+                {
+                    Console.WriteLine($"{Key}");
+                }
+
+            }
+        }
+    }
+
     // quit
     public class Quit : IGameAction
     {
@@ -1462,7 +1478,7 @@ namespace dungeonCore.Game
                     {"inventory", Inventory.Instance},
                     {"s", Stats.Instance },
                     {"stats", Stats.Instance},
-                    {"quit", Quit.Instance },
+                    {"QUIT", Quit.Instance },
                     {"q", Quit.Instance },
                     {"w", Wear.Instance },
                     {"wear", Wear.Instance},
@@ -1490,9 +1506,13 @@ namespace dungeonCore.Game
                     {"reforge", Reforge.Instance},
                     {"save", Save.Instance},
                     {"arise", Arise.Instance},
+                    {"help", Help.Instance},
 
                 };
-
+        public static Dictionary<string, Action<List<string>, Player>> GetActions()
+        {
+            return actions;
+        }
         public static bool Execute(List<string> instructions, Player player)
         {
             if (actions.ContainsKey(instructions[0]))
